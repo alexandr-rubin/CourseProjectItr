@@ -31,6 +31,11 @@ namespace CourseProjectItr
                 {
                     options.ClientId = "168868103811-5452q4g45rrb2lnh148d89ddli0ndpnm.apps.googleusercontent.com";
                     options.ClientSecret = "hL5pZh-T0yohxza6Em9wL9lb";
+                })
+                .AddFacebook(options =>
+                {
+                    options.ClientId = "1476458262548549";
+                    options.ClientSecret = "3453939d2182db89a26643fe7356776c";
                 });
         }
 
