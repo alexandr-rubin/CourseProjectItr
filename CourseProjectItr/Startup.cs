@@ -25,6 +25,13 @@ namespace CourseProjectItr
         {
             services.AddControllersWithViews();
             services.AddRazorPages();
+
+            services.AddAuthentication()
+                .AddGoogle(options =>
+                {
+                    options.ClientId = "168868103811-5452q4g45rrb2lnh148d89ddli0ndpnm.apps.googleusercontent.com";
+                    options.ClientSecret = "hL5pZh-T0yohxza6Em9wL9lb";
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
