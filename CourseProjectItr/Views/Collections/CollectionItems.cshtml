@@ -1,0 +1,44 @@
+﻿@model IEnumerable<CourseProjectItr.Models.FileModel>
+
+<head>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/collectionItems.css" />
+</head>
+
+@foreach (var item in Model)
+{
+    if (ViewBag.imageExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
+    {
+        <div class="align-top d-inline-block collection-item">
+            <img src="~/files/@item.FilePath" width="220" />
+            <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+        </div>
+        
+    }
+    else if (ViewBag.audioExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
+    {
+        <div class="d-inline-block align-top text-center">
+            <div class="collection-item">
+                <img src="~/files/MusicImageCollectionItem.jpg" width="165" />
+                <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+            </div>
+            <div>
+                <audio controls>
+                    <source src="~/files/@item.FilePath" />
+                </audio>
+            </div>
+        </div>
+    }
+    else if (ViewBag.textExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
+    {
+        <div class="d-inline-block">
+            <div class="text-center collection-item">
+                <img src="~/files/fileIconInCollection.png" width="220" />
+                <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+            </div>
+            <div class="text-center">
+                <a href="~/files/@item.FilePath">@item.FilePath</a>
+            </div>
+        </div>
+    }
+}

@@ -1,0 +1,14 @@
+﻿@model CourseProjectItr.Models.Collection
+
+<form asp-action="create" asp-controller="collections" method="post" enctype="multipart/form-data">
+    <div class="form-group">
+        <label asp-for="Name" class="control-label">Collection name</label>
+        <input type="text" asp-for="Name" class="form-control" />
+    </div>
+    <div class="form-group">
+        <input type="file" name="file" multiple="multiple" />
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Create" class="m-2"/>
+    </div>
+</form>
