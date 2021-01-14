@@ -1,0 +1,29 @@
+﻿@model IEnumerable<CourseProjectItr.Models.Collection>
+
+    <a asp-action="Create">Create New</a>
+
+<table class="table">
+    <tr><td></td><td>Collection name</td><td></td></tr>
+    @foreach (var item in Model)
+    {
+        if (item.OwnerEmail == User.Identity.Name)
+        {
+            <tr>
+                <td>
+                    @for (int i = 0; i < ViewBag.avatar.Count; i++)
+                    {
+                        if (ViewBag.avatar[i].CollectionId == item.Id)
+                        {
+                            <img src="~/files/@ViewBag.avatar[i].FilePath" width="50"/>
+                            break;
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-action="CollectionItems" asp-route-id="@item.Id">@item.Name</a>
+                </td>
+                <td><a asp-action="Add" asp-route-id="@item.Id">Add</a></td>
+            </tr>
+        }
+    }
+</table>
