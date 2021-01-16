@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<CourseProjectItr.Models.Collection>
 
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary m-2">Create New</a>
 
 <table class="table">
     <tr><td></td><td>Collection name</td><td></td></tr>
@@ -22,7 +22,7 @@
                 <td>
                     <a asp-action="CollectionItems" asp-route-id="@item.Id">@item.Name</a>
                 </td>
-                <td><a asp-action="Add" asp-route-id="@item.Id">Add</a></td>
+                <td><a asp-action="Add" asp-route-id="@item.Id" class="btn btn-primary">Add</a></td>
             </tr>
         }
     }

@@ -20,7 +20,7 @@ namespace CourseProjectItr.Areas.Identity
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("CourseDbContextConnection")));
 
-                services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<CourseDbContext>();
             });
         }
