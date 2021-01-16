@@ -1,6 +1,8 @@
 ﻿using CourseProjectItr.Areas.Identity.Data;
+using CourseProjectItr.Data;
 using CourseProjectItr.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -15,11 +17,16 @@ namespace CourseProjectItr.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly CourseDbContext _db;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        public AdministrationController(RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager,
+            CourseDbContext db, SignInManager<ApplicationUser> signInManager)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _db = db;
+            _signInManager = signInManager;
         }
 
         public IActionResult CreateRole()
@@ -188,6 +195,44 @@ namespace CourseProjectItr.Controllers
             }
 
             return RedirectToAction("EditRole", new { Id = roleId });
+        }
+
+        public IActionResult UsersAdministration()
+        {
+            return View(_userManager.Users.ToList());
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UsersAdministration(IFormCollection formCollection, string submitButton)
+        {
+            var ids = formCollection["userId"].ToString().Split(new char[] { ',' });
+            foreach (var item in ids)
+            {
+                var user = _db.Users.Find(item);
+                if (user == null)
+                    return RedirectToAction("UsersAdministration");
+                else if (submitButton == "Delete")
+                {
+                    await _userManager.UpdateSecurityStampAsync(user);
+                    _db.Users.Remove(user);
+                    _db.SaveChanges();
+                }
+                else if (submitButton == "Block")
+                {
+                    await _userManager.UpdateSecurityStampAsync(user);
+                    user.LockoutStatus = true;
+                    await _userManager.SetLockoutEnabledAsync(user, true);
+                    await _userManager.SetLockoutEndDateAsync(user, DateTime.Today.AddYears(100));
+                }
+                else if (submitButton == "Unblock")
+                {
+                    user.LockoutStatus = false;
+                    await _userManager.SetLockoutEnabledAsync(user, false);
+                }
+            }
+            if (ids.Contains(_userManager.GetUserId(User)) && submitButton != "Unblock")
+                await _signInManager.SignOutAsync();
+            return RedirectToAction("UsersAdministration");
         }
     }
 }

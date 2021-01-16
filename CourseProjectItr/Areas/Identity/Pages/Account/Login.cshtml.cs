@@ -90,6 +90,16 @@ namespace CourseProjectItr.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var user = await _userManager.FindByNameAsync(Input.Email);
+                    if (user == null)
+                        return NotFound("Unable to load user for update last login.");
+                    user.LastLoginDate = DateTimeOffset.Now;
+                    var lastLoginResult = await _userManager.UpdateAsync(user);
+                    if (!lastLoginResult.Succeeded)
+                    {
+                        throw new InvalidOperationException($"Unexpected error occurred setting the last login date" +
+                            $" ({lastLoginResult.ToString()}) for user with ID '{user.Id}'.");
+                    }
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }
