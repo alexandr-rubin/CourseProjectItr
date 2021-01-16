@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -37,6 +38,11 @@ namespace CourseProjectItr
                     options.ClientId = "1476458262548549";
                     options.ClientSecret = "3453939d2182db89a26643fe7356776c";
                 });
+
+            services.Configure<SecurityStampValidatorOptions>(options =>
+            {
+                options.ValidationInterval = TimeSpan.Zero;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

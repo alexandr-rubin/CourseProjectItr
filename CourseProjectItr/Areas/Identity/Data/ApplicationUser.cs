@@ -11,8 +11,13 @@ namespace CourseProjectItr.Areas.Identity.Data
     {
         [PersonalData]
         public string FirstName { get; set; }
-
         [PersonalData]
         public string LastName { get; set; }
+        [PersonalData]
+        public DateTimeOffset RegistrationDate { get; set; }
+        [PersonalData]
+        public DateTimeOffset LastLoginDate { get; set; }
+        [PersonalData]
+        public bool LockoutStatus { get; set; }
     }
 }

@@ -1,0 +1,56 @@
+﻿@model IEnumerable<CourseProjectItr.Areas.Identity.Data.ApplicationUser>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#myCheckboxAll').click(function () {
+            if ($(this).is(":checked")) {
+                $(".myCheckbox").prop("checked", true)
+            }
+            else {
+                $(".myCheckbox").prop("checked", false)
+            }
+        });
+    });
+</script>
+
+<form method="post">
+    <div class="m-3">
+        <input name="submitButton" type="submit" class="btn btn-danger" value="Delete" formaction="/Administration/UsersAdministration">
+        <input name="submitButton" type="submit" class="btn btn-danger" value="Block" formaction="/Administration/UsersAdministration">
+        <input name="submitButton" type="submit" class="btn btn-danger" value="Unblock" formaction="/Administration/UsersAdministration">
+    </div>
+    <table class="table" id="DataTable">
+        <thead>
+            <tr>
+                <th><input id="myCheckboxAll" type="checkbox"></th>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Registration date</th>
+                <th>Last login date</th>
+                <th>Lockout status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td><input class="myCheckbox" type="checkbox" value="@item.Id" name="userId"></td>
+                    <td>@item.Id</td>
+                    <td>@item.Email</td>
+                    <td>@item.RegistrationDate</td>
+                    <td>@item.LastLoginDate</td>
+                    @if (item.LockoutStatus)
+                    {
+                        <td>Locked</td>
+                    }
+                    else
+                    {
+                        <td>Not blocked</td>
+                    }
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
+

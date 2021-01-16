@@ -41,6 +41,9 @@ namespace CourseProjectItr.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTimeOffset>("LastLoginDate")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
@@ -49,6 +52,9 @@ namespace CourseProjectItr.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("LockoutStatus")
+                        .HasColumnType("bit");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -66,6 +72,9 @@ namespace CourseProjectItr.Migrations
 
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset>("RegistrationDate")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
@@ -98,6 +107,7 @@ namespace CourseProjectItr.Migrations
                         .UseIdentityColumn();
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OwnerEmail")

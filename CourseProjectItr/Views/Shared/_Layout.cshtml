@@ -1,4 +1,8 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Identity;
+@using CourseProjectItr.Areas.Identity.Data;
+@inject SignInManager<ApplicationUser> signInManager;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -21,9 +25,27 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Collections" asp-action="UserCollectionsList">Collections</a>
-                        </li>
+                        @if (signInManager.IsSignedIn(User))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Collections" asp-action="UserCollectionsList">Collections</a>
+                            </li>
+                        }
+
+                        @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle text-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                   id="navbarDropdownMenuLink">
+                                    Manage
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <a class="text-dark dropdown-item" asp-area="" asp-controller="Administration" asp-action="ListRoles">List Roles</a>
+                                    <a class="text-dark dropdown-item" asp-area="" asp-controller="Administration" asp-action="UsersAdministration">Users Administration</a>
+                                </div>
+                                
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>
