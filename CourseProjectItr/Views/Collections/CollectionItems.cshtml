@@ -13,7 +13,7 @@
             <img src="~/files/@item.FilePath" width="220" />
             <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
         </div>
-        
+
     }
     else if (ViewBag.audioExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
     {

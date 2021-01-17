@@ -28,10 +28,10 @@ namespace CourseProjectItr.Controllers
             return View();
         }
 
-        public async Task<IActionResult> UserCollectionsList()
+        public async Task<IActionResult> UserCollectionsList(string name)
         {
             ViewBag.avatar = await _db.FileModel.ToListAsync();
-            return View(await _db.Collection.ToListAsync());
+            return View(await _db.Collection.Where(x => x.OwnerEmail == name).ToListAsync());
         }
 
         public IActionResult CollectionItems(int id)
@@ -66,7 +66,8 @@ namespace CourseProjectItr.Controllers
                 _db.Add(fileModel);
                 _db.Update(collection);
                 await _db.SaveChangesAsync();
-                return RedirectToAction("UserCollectionsList");
+                var name = _db.Collection.First(x => x.Id == id).OwnerEmail;
+                return RedirectToAction("UserCollectionsList", new { name });
             }
             return View("Add");
         }
@@ -98,7 +99,8 @@ namespace CourseProjectItr.Controllers
                 _db.Add(fileModel);
                 _db.Add(collection);
                 await _db.SaveChangesAsync();
-                return RedirectToAction("UserCollectionsList");
+                var name = _db.Collection.First(x => x.Id == collection.Id).OwnerEmail;
+                return RedirectToAction("UserCollectionsList", new { name });
             }
             return View("Create");
         }
@@ -106,9 +108,10 @@ namespace CourseProjectItr.Controllers
         public async Task<IActionResult> DeleteItem(int id)
         {
             var item = await _db.FileModel.FindAsync(id);
+            var name = _db.Collection.First(x => x.Id == item.CollectionId).OwnerEmail;
             _db.FileModel.Remove(item);
             await _db.SaveChangesAsync();
-            return RedirectToAction("UserCollectionsList");
+            return RedirectToAction("UserCollectionsList", new { name });
             //Добавить удаление файлов из папки
         }
     }
