@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<CourseProjectItr.Models.Collection>
 
-    <a asp-action="Create" class="btn btn-primary m-2">Create New</a>
+<div>@Model.First().OwnerEmail</div>
 
 <table class="table">
     <tr><td></td><td>Collection name</td><td></td></tr>
@@ -12,7 +12,7 @@
                 {
                     if (ViewBag.avatar[i].CollectionId == item.Id)
                     {
-                        <img src="~/files/@ViewBag.avatar[i].FilePath" width="50"/>
+                        <img src="~/files/@ViewBag.avatar[i].FilePath" width="50" />
                         break;
                     }
                 }
@@ -20,7 +20,9 @@
             <td>
                 <a asp-action="CollectionItems" asp-route-id="@item.Id">@item.Name</a>
             </td>
-            <td><a asp-action="Add" asp-route-id="@item.Id" class="btn btn-primary">Add</a></td>
+            <td><a asp-controller="Collections" asp-action="Add" asp-route-id="@item.Id" class="btn btn-primary">Add</a></td>
         </tr>
     }
 </table>
+
+

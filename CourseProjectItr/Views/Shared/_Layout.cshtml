@@ -28,7 +28,7 @@
                         @if (signInManager.IsSignedIn(User))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Collections" asp-action="UserCollectionsList">Collections</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Collections" asp-action="UserCollectionsList" asp-route-name="@User.Identity.Name">Collections</a>
                             </li>
                         }
 
