@@ -214,6 +214,16 @@ namespace CourseProjectItr.Controllers
                 else if (submitButton == "Delete")
                 {
                     await _userManager.UpdateSecurityStampAsync(user);
+                    var userCollections = _db.Collection.Where(x => x.OwnerEmail == user.Email).ToList();
+                    foreach (var colection in userCollections)
+                    {
+                        var items = _db.FileModel.Where(x => x.CollectionId == colection.Id).ToList();
+                        foreach (var colItem in items)
+                        {
+                            _db.Remove(colItem);
+                        }
+                        _db.Collection.Remove(colection);
+                    }
                     _db.Users.Remove(user);
                     _db.SaveChanges();
                 }
