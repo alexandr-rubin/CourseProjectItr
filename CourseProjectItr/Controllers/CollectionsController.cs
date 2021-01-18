@@ -114,5 +114,19 @@ namespace CourseProjectItr.Controllers
             return RedirectToAction("UserCollectionsList", new { name });
             //Добавить удаление файлов из папки
         }
+
+        public async Task<IActionResult> DeleteCollection(int id)
+        {
+            var collection = await _db.Collection.FindAsync(id);
+            var name = collection.OwnerEmail;
+            var items = await _db.FileModel.Where(x => x.CollectionId == id).ToListAsync();
+            foreach (var item in items)
+            {
+                _db.Remove(item);
+            }
+            _db.Remove(collection);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("UserCollectionsList", new { name });
+        }
     }
 }
