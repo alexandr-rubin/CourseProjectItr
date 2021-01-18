@@ -1,6 +1,9 @@
 ﻿@model IEnumerable<CourseProjectItr.Models.Collection>
 
-<div>@Model.First().OwnerEmail</div>
+@if (Model.ToList().Count > 0)
+{
+    <div>@Model.First().OwnerEmail</div>
+}
 
 <table class="table">
     <tr><td></td><td>Collection name</td><td></td></tr>
