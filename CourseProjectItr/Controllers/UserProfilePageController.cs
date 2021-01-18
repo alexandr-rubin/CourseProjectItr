@@ -34,5 +34,10 @@ namespace CourseProjectItr.Controllers
         {
             return RedirectToAction("CollectionItems", "Collections", new { id = id });
         }
+
+        public IActionResult DeleteCollection(int id)
+        {
+            return RedirectToAction("DeleteCollection", "Collections", new { id = id });
+        }
     }
 }
