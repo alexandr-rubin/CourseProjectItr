@@ -1,6 +1,6 @@
 ﻿@model IEnumerable<CourseProjectItr.Models.Collection>
 
-    <a asp-action="Create" class="btn btn-primary m-2">Create New</a>
+    <a asp-action="Create" asp-route-userName="@Model.First().OwnerEmail" class="btn btn-primary m-2">Create New</a>
 
 <table class="table">
     <tr><td></td><td>Collection name</td><td></td></tr>

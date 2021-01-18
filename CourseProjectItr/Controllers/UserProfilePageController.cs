@@ -26,6 +26,7 @@ namespace CourseProjectItr.Controllers
 
         public async Task<IActionResult> UserProfilePage(string name)
         {
+            ViewBag.userName = name;
             ViewBag.avatar = await _db.FileModel.ToListAsync();
             return View(await _db.Collection.Where(x => x.OwnerEmail == name).ToListAsync());
         }
@@ -38,6 +39,11 @@ namespace CourseProjectItr.Controllers
         public IActionResult DeleteCollection(int id)
         {
             return RedirectToAction("DeleteCollection", "Collections", new { id = id });
+        }
+
+        public IActionResult CreateCollection(string userName)
+        {
+            return RedirectToAction("Create", "Collections", new { userName = userName });
         }
     }
 }

@@ -31,6 +31,16 @@ namespace CourseProjectItr.Controllers
         public async Task<IActionResult> UserCollectionsList(string name)
         {
             ViewBag.avatar = await _db.FileModel.ToListAsync();
+            var collections = await _db.Collection.Where(x => x.OwnerEmail == name).ToListAsync();
+            List<Collection> userName = new List<Collection>();
+            Collection col = new Collection
+            {
+                OwnerEmail = name
+            };
+            userName.Add(col);
+            if (collections.Count == 0)
+                return View(userName);
+
             return View(await _db.Collection.Where(x => x.OwnerEmail == name).ToListAsync());
         }
 
@@ -72,19 +82,20 @@ namespace CourseProjectItr.Controllers
             return View("Add");
         }
 
-        public IActionResult Create()
+        public IActionResult Create(string userName)
         {
+            ViewBag.userName = userName;
             return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Collection collection, IFormFile file)
+        public async Task<IActionResult> Create(Collection collection, IFormFile file, string userEmail)
         {
             if (file == null || file.Length == 0)
             {
                 return Content("File(s) not selected");
             }
-            collection.OwnerEmail = User.Identity.Name;
+            collection.OwnerEmail = userEmail;
             collection.Files = new List<FileModel>();
             FileModel fileModel = new FileModel();
             

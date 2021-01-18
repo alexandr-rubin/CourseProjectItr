@@ -4,7 +4,7 @@
 {
     <div>@Model.First().OwnerEmail</div>
 }
-
+<a asp-action="CreateCollection" asp-route-userName="@ViewBag.userName" class="btn btn-primary m-2">Create collection</a>
 <table class="table">
     <tr><td></td><td>Collection name</td><td></td></tr>
     @foreach (var item in Model)
