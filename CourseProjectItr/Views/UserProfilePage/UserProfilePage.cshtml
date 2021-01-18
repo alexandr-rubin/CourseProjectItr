@@ -23,7 +23,10 @@
             <td>
                 <a asp-action="CollectionItems" asp-route-id="@item.Id">@item.Name</a>
             </td>
-            <td><a asp-controller="Collections" asp-action="Add" asp-route-id="@item.Id" class="btn btn-primary">Add</a></td>
+            <td>
+                <a asp-controller="Collections" asp-action="Add" asp-route-id="@item.Id" class="btn btn-primary">Add</a>
+                <a asp-action="DeleteCollection" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+            </td>
         </tr>
     }
 </table>
