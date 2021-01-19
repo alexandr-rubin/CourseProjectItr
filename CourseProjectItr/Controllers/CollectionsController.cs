@@ -141,7 +141,6 @@ namespace CourseProjectItr.Controllers
             _db.FileModel.Remove(item);
             await _db.SaveChangesAsync();
             return RedirectToAction("UserCollectionsList", new { name });
-            //Добавить удаление файлов из папки
         }
 
         public async Task<IActionResult> DeleteCollection(int id)
@@ -153,6 +152,10 @@ namespace CourseProjectItr.Controllers
             {
                 _db.Remove(item);
             }
+
+            var deletionParams = new DeletionParams(Path.GetFileNameWithoutExtension(collection.Avatar));
+            var deletionResult = cloudinary.Destroy(deletionParams);
+
             _db.Remove(collection);
             await _db.SaveChangesAsync();
             return RedirectToAction("UserCollectionsList", new { name });
