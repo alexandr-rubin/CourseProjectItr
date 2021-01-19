@@ -1,4 +1,6 @@
-﻿using CourseProjectItr.Areas.Identity.Data;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using CourseProjectItr.Areas.Identity.Data;
 using CourseProjectItr.Data;
 using CourseProjectItr.Models;
 using Microsoft.AspNetCore.Http;
@@ -17,6 +19,14 @@ namespace CourseProjectItr.Controllers
     {
         public readonly CourseDbContext _db;
         private readonly UserManager<ApplicationUser> _userManager;
+
+        private static readonly Account account = new Account(
+            "dnntqrull",
+            "841957784659873",
+            "7QkkV8FwsWEBz5f8eGowbjfDj6k"
+            );
+        private readonly Cloudinary cloudinary = new Cloudinary(account);
+
         public CollectionsController(CourseDbContext db , UserManager<ApplicationUser> userManager)
         {
             _db = db;
@@ -30,7 +40,6 @@ namespace CourseProjectItr.Controllers
 
         public async Task<IActionResult> UserCollectionsList(string name)
         {
-            ViewBag.avatar = await _db.FileModel.ToListAsync();
             var collections = await _db.Collection.Where(x => x.OwnerEmail == name).ToListAsync();
             List<Collection> userName = new List<Collection>();
             Collection col = new Collection
@@ -100,11 +109,20 @@ namespace CourseProjectItr.Controllers
             FileModel fileModel = new FileModel();
             
             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/files", file.FileName);
-            var stream = new FileStream(path, FileMode.Create);
-            await file.CopyToAsync(stream);
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
             fileModel.FilePath = file.FileName;
             fileModel.CollectionId = collection.Id;
             collection.Files.Add(fileModel);
+            var uploadParams = new ImageUploadParams()
+            {
+                File = new FileDescription(@"wwwroot/files/" + file.FileName)
+            };
+            var uploadResult = cloudinary.Upload(uploadParams);
+            collection.Avatar = uploadResult.Url.ToString();
+
             if (ModelState.IsValid)
             {
                 _db.Add(fileModel);

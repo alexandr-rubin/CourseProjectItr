@@ -6,22 +6,21 @@
 }
 <a asp-action="CreateCollection" asp-route-userName="@ViewBag.userName" class="btn btn-primary m-2">Create collection</a>
 <table class="table">
-    <tr><td></td><td>Collection name</td><td></td></tr>
+    <tr><td></td><td>Collection name</td><td>Theme</td><td>Description</td><td></td></tr>
     @foreach (var item in Model)
     {
         <tr>
             <td>
-                @for (int i = 0; i < ViewBag.avatar.Count; i++)
-                {
-                    if (ViewBag.avatar[i].CollectionId == item.Id)
-                    {
-                        <img src="~/files/@ViewBag.avatar[i].FilePath" width="50" />
-                        break;
-                    }
-                }
+                <img src="@item.Avatar" alt="Avatar" width="45" />
             </td>
             <td>
                 <a asp-action="CollectionItems" asp-route-id="@item.Id">@item.Name</a>
+            </td>
+            <td>
+                <label>@item.Theme</label>
+            </td>
+            <td>
+                <label>@item.Description</label>
             </td>
             <td>
                 <a asp-controller="Collections" asp-action="Add" asp-route-id="@item.Id" class="btn btn-primary">Add</a>
@@ -30,5 +29,4 @@
         </tr>
     }
 </table>
-
 
