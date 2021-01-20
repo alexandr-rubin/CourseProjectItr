@@ -55,6 +55,7 @@ namespace CourseProjectItr.Controllers
 
         public IActionResult CollectionItems(int id)
         {
+            ViewBag.userName = _db.Collection.First(x => x.Id == id).Id;
             ViewBag.imageExtensions = new List<string> { ".jpg", ".jpeg", ".bmp", ".gif", ".png" };
             ViewBag.audioExtensions = new List<string> { ".mp3", ".wav", ".wma", ".wpl", ".mid", ".midi", ".aif", ".cda", ".mpa", ".ogg" };
             ViewBag.videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
@@ -73,13 +74,40 @@ namespace CourseProjectItr.Controllers
             var collection = _db.Collection.Find(id);
             FileModel fileModel = new FileModel();
             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/files", file.FileName);
-            var stream = new FileStream(path, FileMode.Create);
-            await file.CopyToAsync(stream);
-            fileModel.FilePath = file.FileName;
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
             fileModel.CollectionId = id;
             if (collection.Files == null)
                 collection.Files = new List<FileModel>();
             collection.Files.Add(fileModel);
+
+            var imageExtensions = new List<string> { ".jpg", ".jpeg", ".bmp", ".gif", ".png" };
+            var videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
+            if (imageExtensions.Contains(Path.GetExtension(file.FileName)))
+            {
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(@"wwwroot/files/" + file.FileName)
+                };
+                var uploadResult = cloudinary.Upload(uploadParams);
+                fileModel.FilePath = uploadResult.Url.ToString();
+            }
+            else if (videoExtensions.Contains(Path.GetExtension(file.FileName)))
+            {
+                var uploadParams = new VideoUploadParams()
+                {
+                    File = new FileDescription(@"wwwroot/files/" + file.FileName)
+                };
+                var uploadResult = cloudinary.Upload(uploadParams);
+                fileModel.FilePath = uploadResult.Url.ToString();
+            }
+            else
+            {
+                fileModel.FilePath = file.FileName;
+            }
+
             if (ModelState.IsValid)
             {
                 _db.Add(fileModel);
@@ -113,14 +141,14 @@ namespace CourseProjectItr.Controllers
             {
                 await file.CopyToAsync(stream);
             }
-            fileModel.FilePath = file.FileName;
-            fileModel.CollectionId = collection.Id;
-            collection.Files.Add(fileModel);
             var uploadParams = new ImageUploadParams()
             {
                 File = new FileDescription(@"wwwroot/files/" + file.FileName)
             };
             var uploadResult = cloudinary.Upload(uploadParams);
+            fileModel.FilePath = uploadResult.Url.ToString();
+            fileModel.CollectionId = collection.Id;
+            collection.Files.Add(fileModel);
             collection.Avatar = uploadResult.Url.ToString();
 
             if (ModelState.IsValid)
@@ -138,6 +166,23 @@ namespace CourseProjectItr.Controllers
         {
             var item = await _db.FileModel.FindAsync(id);
             var name = _db.Collection.First(x => x.Id == item.CollectionId).OwnerEmail;
+
+            var imageExtensions = new List<string> { ".jpg", ".jpeg", ".bmp", ".gif", ".png" };
+            var videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
+            if (imageExtensions.Contains(Path.GetExtension(item.FilePath)))
+            {
+                var deletionParams = new DeletionParams(Path.GetFileNameWithoutExtension(item.FilePath));
+                var deletionResult = cloudinary.Destroy(deletionParams);
+            }
+            else if (videoExtensions.Contains(Path.GetExtension(item.FilePath)))
+            {
+                var deletionParams = new DeletionParams(Path.GetFileNameWithoutExtension(item.FilePath))
+                {
+                    ResourceType = ResourceType.Video
+                };
+                var deletionResult = cloudinary.Destroy(deletionParams);
+            }
+
             _db.FileModel.Remove(item);
             await _db.SaveChangesAsync();
             return RedirectToAction("UserCollectionsList", new { name });
@@ -148,13 +193,14 @@ namespace CourseProjectItr.Controllers
             var collection = await _db.Collection.FindAsync(id);
             var name = collection.OwnerEmail;
             var items = await _db.FileModel.Where(x => x.CollectionId == id).ToListAsync();
-            foreach (var item in items)
-            {
-                _db.Remove(item);
-            }
 
             var deletionParams = new DeletionParams(Path.GetFileNameWithoutExtension(collection.Avatar));
             var deletionResult = cloudinary.Destroy(deletionParams);
+
+            foreach (var item in items)
+            {
+                await DeleteItem(item.Id);
+            }
 
             _db.Remove(collection);
             await _db.SaveChangesAsync();

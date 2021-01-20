@@ -5,12 +5,14 @@
     <link rel="stylesheet" href="~/css/collectionItems.css" />
 </head>
 
+<div><a asp-action="Add" asp-route-id="@ViewBag.userName" class="btn btn-primary m-1">Add item</a></div>
+
 @foreach (var item in Model)
 {
     if (ViewBag.imageExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
     {
         <div class="align-top d-inline-block collection-item">
-            <img src="~/files/@item.FilePath" width="220" />
+            <img src="@item.FilePath" width="220" />
             <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
         </div>
 
@@ -40,5 +42,24 @@
                 <a href="~/files/@item.FilePath">@item.FilePath</a>
             </div>
         </div>
+    }
+    else if (ViewBag.videoExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
+    {
+        <div class="d-inline-block">
+            <div class="text-center collection-item">
+                <video src="@item.FilePath" controls width="390"></video>
+                <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="d-inline-block">
+            <div class="text-center collection-item">
+                <iframe src="~/files/@item.FilePath" width="390"></iframe>
+                <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+            </div>
+        </div>
+        
     }
 }
