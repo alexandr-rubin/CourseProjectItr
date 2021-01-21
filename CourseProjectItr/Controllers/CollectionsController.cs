@@ -55,7 +55,8 @@ namespace CourseProjectItr.Controllers
 
         public IActionResult CollectionItems(int id)
         {
-            ViewBag.userName = _db.Collection.First(x => x.Id == id).Id;
+            ViewBag.id = _db.Collection.First(x => x.Id == id).Id;
+            ViewBag.userName = _db.Collection.First(x => x.Id == id).OwnerEmail;
             ViewBag.imageExtensions = new List<string> { ".jpg", ".jpeg", ".bmp", ".gif", ".png" };
             ViewBag.audioExtensions = new List<string> { ".mp3", ".wav", ".wma", ".wpl", ".mid", ".midi", ".aif", ".cda", ".mpa", ".ogg" };
             ViewBag.videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
@@ -93,6 +94,7 @@ namespace CourseProjectItr.Controllers
                 };
                 var uploadResult = cloudinary.Upload(uploadParams);
                 fileModel.FilePath = uploadResult.Url.ToString();
+                System.IO.File.Delete("wwwroot/files/" + file.FileName);
             }
             else if (videoExtensions.Contains(Path.GetExtension(file.FileName)))
             {
@@ -102,6 +104,7 @@ namespace CourseProjectItr.Controllers
                 };
                 var uploadResult = cloudinary.Upload(uploadParams);
                 fileModel.FilePath = uploadResult.Url.ToString();
+                System.IO.File.Delete("wwwroot/files/" + file.FileName);
             }
             else
             {
@@ -150,6 +153,7 @@ namespace CourseProjectItr.Controllers
             fileModel.CollectionId = collection.Id;
             collection.Files.Add(fileModel);
             collection.Avatar = uploadResult.Url.ToString();
+            System.IO.File.Delete("wwwroot/files/" + file.FileName);
 
             if (ModelState.IsValid)
             {

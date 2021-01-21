@@ -1,8 +1,28 @@
-﻿@{
+﻿@model IEnumerable<CourseProjectItr.Models.Collection>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <table class="table">
+        <tr><td></td><td>Collection name</td><td>Theme</td><td>Description</td><td></td></tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <img src="@item.Avatar" alt="Avatar" width="45" />
+                </td>
+                <td>
+                    <a asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@item.Id">@item.Name</a>
+                </td>
+                <td>
+                    <label>@item.Theme</label>
+                </td>
+                <td>
+                    <label>@item.Description</label>
+                </td>
+            </tr>
+        }
+    </table>
 </div>

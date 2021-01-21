@@ -5,7 +5,11 @@
     <link rel="stylesheet" href="~/css/collectionItems.css" />
 </head>
 
-<div><a asp-action="Add" asp-route-id="@ViewBag.userName" class="btn btn-primary m-1">Add item</a></div>
+@if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+{
+    <div><a asp-action="Add" asp-route-id="@ViewBag.id" class="btn btn-primary m-1">Add item</a></div>
+}
+
 
 @foreach (var item in Model)
 {
@@ -13,7 +17,10 @@
     {
         <div class="align-top d-inline-block collection-item">
             <img src="@item.FilePath" width="220" />
-            <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+            @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+            {
+                <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+            }
         </div>
 
     }
@@ -22,7 +29,10 @@
         <div class="d-inline-block align-top text-center">
             <div class="collection-item">
                 <img src="~/files/MusicImageCollectionItem.jpg" width="165" />
-                <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                {
+                    <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                }
             </div>
             <div>
                 <audio controls>
@@ -36,7 +46,10 @@
         <div class="d-inline-block">
             <div class="text-center collection-item">
                 <img src="~/files/fileIconInCollection.png" width="220" />
-                <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                {
+                    <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                }
             </div>
             <div class="text-center">
                 <a href="~/files/@item.FilePath">@item.FilePath</a>
@@ -48,7 +61,10 @@
         <div class="d-inline-block">
             <div class="text-center collection-item">
                 <video src="@item.FilePath" controls width="390"></video>
-                <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                {
+                    <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                }
             </div>
         </div>
     }
@@ -57,7 +73,10 @@
         <div class="d-inline-block">
             <div class="text-center collection-item">
                 <iframe src="~/files/@item.FilePath" width="390"></iframe>
-                <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                {
+                    <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                }
             </div>
         </div>
         
