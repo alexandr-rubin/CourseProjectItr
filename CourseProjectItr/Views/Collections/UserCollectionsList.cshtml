@@ -11,10 +11,20 @@
     Cloudinary cloudinary = new Cloudinary(account);
 }
 
+<head>
+    <link rel="stylesheet" href="~/css/tagify.css" />
+    <script src="~/js/tagify.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/tags.js"></script>
+    <script src="~/js/search.js"></script>
+</head>
+
+<input type="text" id="text-to-find" onkeyup="Search()" value="" placeholder="Search" class="m-3">
+
 <a asp-action="Create" asp-route-userName="@Model.First().OwnerEmail" class="btn btn-primary m-2">Create New</a>
 @if (Model.ToList()[0].Name != null)
 {
-    <table class="table">
+    <table class="table" id="collectionsTable">
         <tr><td></td><td>Collection name</td><td>Theme</td><td>Description</td><td></td></tr>
         @foreach (var item in Model)
         {
@@ -26,7 +36,12 @@
                     <a asp-action="CollectionItems" asp-route-id="@item.Id">@item.Name</a>
                 </td>
                 <td>
-                    <label>@item.Theme</label>
+                    <input value="@item.Theme" id="@item.Id" readonly />
+                    <script>
+                        var input = document.querySelector('input[id="@item.Id"]'),
+                            tagify = new Tagify(input, {
+                            })
+                    </script>
                 </td>
                 <td>
                     <label>@item.Description</label>

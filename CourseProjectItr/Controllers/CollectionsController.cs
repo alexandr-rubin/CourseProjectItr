@@ -186,6 +186,10 @@ namespace CourseProjectItr.Controllers
                 };
                 var deletionResult = cloudinary.Destroy(deletionParams);
             }
+            else
+            {
+                System.IO.File.Delete("wwwroot/files/" + item.FilePath);
+            }
 
             _db.FileModel.Remove(item);
             await _db.SaveChangesAsync();
