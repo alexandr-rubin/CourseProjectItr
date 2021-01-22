@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseProjectItr.Migrations
 {
     [DbContext(typeof(CourseDbContext))]
-    [Migration("20210119114650_Initial-Create")]
+    [Migration("20210122112725_Initial-Create")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -140,6 +140,9 @@ namespace CourseProjectItr.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tags")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

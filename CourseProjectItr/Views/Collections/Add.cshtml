@@ -1,11 +1,22 @@
 ﻿@model CourseProjectItr.Models.FileModel
 
+<head>
+    <link rel="stylesheet" href="~/css/tagify.css" />
+    <script src="~/js/tagify.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/tags.js"></script>
+</head>
+<body onload="AddTags()">
+    <form asp-action="add" asp-controller="collections" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <input type="text" name="tags" class="form-control" id="input-custom-dropdown" placeholder="Enter tags" />
+        </div>
+        <div class="form-group">
+            <input type="file" name="file" class="form-control" />
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Add" class="btn btn-primary m-2" />
+        </div>
+    </form>
+</body>
 
-<form asp-action="add" asp-controller="collections" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <input type="file" name="file" class="form-control" />
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Add" class="btn btn-primary m-2" />
-    </div>
-</form>

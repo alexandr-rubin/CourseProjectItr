@@ -3,6 +3,10 @@
 <head>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/collectionItems.css" />
+    <link rel="stylesheet" href="~/css/tagify.css" />
+    <script src="~/js/tagify.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+    <script src="~/js/tags.js"></script>
 </head>
 
 @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
@@ -10,75 +14,95 @@
     <div><a asp-action="Add" asp-route-id="@ViewBag.id" class="btn btn-primary m-1">Add item</a></div>
 }
 
-
 @foreach (var item in Model)
 {
-    if (ViewBag.imageExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
-    {
-        <div class="align-top d-inline-block collection-item">
-            <img src="@item.FilePath" width="220" />
-            @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+    <div class="align-top d-inline-block">
+        <div hidden id="hidden_@item.Id">
+            <div class="align-top d-inline-block">
+                <input value="@item.Tags" id="@item.Id" readonly />
+                <script>
+                var input = document.querySelector('input[id="@item.Id"]'),
+                    tagify = new Tagify(input, {
+                    })
+                </script>
+            </div>
+        </div>
+        <div>
+            @if (ViewBag.imageExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
             {
-                <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                <div class="align-top d-inline-block collection-item">
+                    <img src="@item.FilePath" width="220" />
+                    @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                    {
+                        <a class="delete-btn btn btn-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                        <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
+                    }
+                </div>
+
+            }
+            else if (ViewBag.audioExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
+            {
+                <div class="d-inline-block align-top text-center">
+                    <div class="collection-item">
+                        <img src="~/files/MusicImageCollectionItem.jpg" width="200" />
+                        @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                        {
+                            <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                            <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
+                        }
+                    </div>
+                    <div>
+                        <audio controls>
+                            <source src="~/files/@item.FilePath" />
+                        </audio>
+                    </div>
+                </div>
+            }
+            else if (ViewBag.textExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
+            {
+                <div class="d-inline-block">
+                    <div class="text-center collection-item">
+                        <img src="~/files/fileIconInCollection.png" width="220" />
+                        @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                        {
+                            <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                            <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
+                        }
+                    </div>
+                    <div class="text-center">
+                        <a href="~/files/@item.FilePath">@item.FilePath</a>
+                    </div>
+                </div>
+            }
+            else if (ViewBag.videoExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
+            {
+                <div class="d-inline-block">
+                    <div class="text-center collection-item">
+                        <video src="@item.FilePath" controls width="390"></video>
+                        @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                        {
+                            <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                            <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
+                        }
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="d-inline-block">
+                    <div class="text-center collection-item">
+                        <iframe src="~/files/@item.FilePath" width="390"></iframe>
+                        @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                        {
+                            <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                            <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
+                        }
+                    </div>
+                </div>
+
             }
         </div>
+    </div>
 
-    }
-    else if (ViewBag.audioExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
-    {
-        <div class="d-inline-block align-top text-center">
-            <div class="collection-item">
-                <img src="~/files/MusicImageCollectionItem.jpg" width="165" />
-                @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
-                {
-                    <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
-                }
-            </div>
-            <div>
-                <audio controls>
-                    <source src="~/files/@item.FilePath" />
-                </audio>
-            </div>
-        </div>
-    }
-    else if (ViewBag.textExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
-    {
-        <div class="d-inline-block">
-            <div class="text-center collection-item">
-                <img src="~/files/fileIconInCollection.png" width="220" />
-                @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
-                {
-                    <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
-                }
-            </div>
-            <div class="text-center">
-                <a href="~/files/@item.FilePath">@item.FilePath</a>
-            </div>
-        </div>
-    }
-    else if (ViewBag.videoExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
-    {
-        <div class="d-inline-block">
-            <div class="text-center collection-item">
-                <video src="@item.FilePath" controls width="390"></video>
-                @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
-                {
-                    <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
-                }
-            </div>
-        </div>
-    }
-    else
-    {
-        <div class="d-inline-block">
-            <div class="text-center collection-item">
-                <iframe src="~/files/@item.FilePath" width="390"></iframe>
-                @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
-                {
-                    <a class="delete-btn" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
-                }
-            </div>
-        </div>
-        
-    }
+
 }

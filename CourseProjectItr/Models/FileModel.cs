@@ -9,6 +9,7 @@ namespace CourseProjectItr.Models
     {
         public int Id { get; set; }
         public string FilePath { get; set; }
+        public string Tags { get; set; }
         public int CollectionId { get; set; }
     }
 }

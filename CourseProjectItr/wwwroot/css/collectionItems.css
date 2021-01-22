@@ -7,17 +7,25 @@
 }
 
 .collection-item:hover .delete-btn {
-    display:block;
+    color: white;
+    display: block;
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 20%;
+    left: 20%;
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
-    background-color: #555;
-    color: white;
-    font-size: 16px;
-    padding: 12px 24px;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
+}
+
+.tags {
+    display: none;
+}
+
+.collection-item:hover .tags {
+    color:white;
+    display:block;
+    position: absolute;
+    top: 20%;
+    left: 80%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
 }

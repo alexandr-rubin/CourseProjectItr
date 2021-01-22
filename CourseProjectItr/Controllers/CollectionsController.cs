@@ -55,8 +55,9 @@ namespace CourseProjectItr.Controllers
 
         public IActionResult CollectionItems(int id)
         {
-            ViewBag.id = _db.Collection.First(x => x.Id == id).Id;
-            ViewBag.userName = _db.Collection.First(x => x.Id == id).OwnerEmail;
+            var collection = _db.Collection.First(x => x.Id == id);
+            ViewBag.id = collection.Id;
+            ViewBag.userName = collection.OwnerEmail;
             ViewBag.imageExtensions = new List<string> { ".jpg", ".jpeg", ".bmp", ".gif", ".png" };
             ViewBag.audioExtensions = new List<string> { ".mp3", ".wav", ".wma", ".wpl", ".mid", ".midi", ".aif", ".cda", ".mpa", ".ogg" };
             ViewBag.videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
@@ -70,7 +71,7 @@ namespace CourseProjectItr.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(int id, IFormFile file)
+        public async Task<IActionResult> Add(int id, IFormFile file, string tags)
         {
             var collection = _db.Collection.Find(id);
             FileModel fileModel = new FileModel();
@@ -111,13 +112,14 @@ namespace CourseProjectItr.Controllers
                 fileModel.FilePath = file.FileName;
             }
 
+            fileModel.Tags = tags;
+
             if (ModelState.IsValid)
             {
                 _db.Add(fileModel);
                 _db.Update(collection);
                 await _db.SaveChangesAsync();
-                var name = _db.Collection.First(x => x.Id == id).OwnerEmail;
-                return RedirectToAction("UserCollectionsList", new { name });
+                return RedirectToAction("CollectionItems", new { collection.Id });
             }
             return View("Add");
         }
@@ -137,7 +139,6 @@ namespace CourseProjectItr.Controllers
             }
             collection.OwnerEmail = userEmail;
             collection.Files = new List<FileModel>();
-            FileModel fileModel = new FileModel();
             
             var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/files", file.FileName);
             using (var stream = new FileStream(path, FileMode.Create))
@@ -149,15 +150,11 @@ namespace CourseProjectItr.Controllers
                 File = new FileDescription(@"wwwroot/files/" + file.FileName)
             };
             var uploadResult = cloudinary.Upload(uploadParams);
-            fileModel.FilePath = uploadResult.Url.ToString();
-            fileModel.CollectionId = collection.Id;
-            collection.Files.Add(fileModel);
             collection.Avatar = uploadResult.Url.ToString();
             System.IO.File.Delete("wwwroot/files/" + file.FileName);
 
             if (ModelState.IsValid)
             {
-                _db.Add(fileModel);
                 _db.Add(collection);
                 await _db.SaveChangesAsync();
                 var name = _db.Collection.First(x => x.Id == collection.Id).OwnerEmail;
@@ -169,7 +166,7 @@ namespace CourseProjectItr.Controllers
         public async Task<IActionResult> DeleteItem(int id)
         {
             var item = await _db.FileModel.FindAsync(id);
-            var name = _db.Collection.First(x => x.Id == item.CollectionId).OwnerEmail;
+            var collection = _db.Collection.First(x => x.Id == item.CollectionId);
 
             var imageExtensions = new List<string> { ".jpg", ".jpeg", ".bmp", ".gif", ".png" };
             var videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
@@ -193,7 +190,7 @@ namespace CourseProjectItr.Controllers
 
             _db.FileModel.Remove(item);
             await _db.SaveChangesAsync();
-            return RedirectToAction("UserCollectionsList", new { name });
+            return RedirectToAction("CollectionItems", new { collection.Id });
         }
 
         public async Task<IActionResult> DeleteCollection(int id)

@@ -181,6 +181,7 @@ namespace CourseProjectItr.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Tags = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CollectionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
