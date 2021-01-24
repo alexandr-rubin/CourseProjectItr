@@ -12,6 +12,7 @@ namespace CourseProjectItr.Models
         [Required(ErrorMessage = "Collection Name is required")]
         public string Name { get; set; }
         public string Avatar { get; set; }
+        [Required(ErrorMessage = "Collection Theme is required")]
         public string Theme { get; set; }
         public string Description { get; set; }
         public string OwnerEmail { get; set; }

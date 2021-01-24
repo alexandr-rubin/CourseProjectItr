@@ -133,10 +133,6 @@ namespace CourseProjectItr.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Collection collection, IFormFile file, string userEmail)
         {
-            if (file == null || file.Length == 0)
-            {
-                return Content("File(s) not selected");
-            }
             collection.OwnerEmail = userEmail;
             collection.Files = new List<FileModel>();
             

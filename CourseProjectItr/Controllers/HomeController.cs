@@ -3,6 +3,7 @@ using CourseProjectItr.Data;
 using CourseProjectItr.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,30 @@ namespace CourseProjectItr.Controllers
 
         public IActionResult Index()
         {
-            return View(_db.Collection.ToList());
+            ViewBag.imageExtensions = new List<string> { ".jpg", ".jpeg", ".bmp", ".gif", ".png" };
+            ViewBag.audioExtensions = new List<string> { ".mp3", ".wav", ".wma", ".wpl", ".mid", ".midi", ".aif", ".cda", ".mpa", ".ogg" };
+            ViewBag.videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
+            ViewBag.textExtensions = new List<string> { ".doc", ".docx", ".odt", ".pdf", ".rtf", ".tex", ".txt", ".wpd", ".fb2" };
+
+            var collections = _db.Collection.ToList();
+            var files = _db.FileModel.ToList();
+            int maxItems = 0;
+            var countItems = 0;
+            int collectionId = 0;
+
+            foreach (var item in collections)
+            {
+                countItems = files.Where(x => x.CollectionId == item.Id).ToList().Count;
+                if (countItems > maxItems)
+                {
+                    maxItems = files.Where(x => x.CollectionId == item.Id).ToList().Count;
+                    collectionId = item.Id;
+                }
+            }
+
+            ViewBag.userName = collections.First(x => x.Id == collectionId).OwnerEmail;
+
+            return View(_db.FileModel.Where(x => x.CollectionId == collectionId).ToList());
         }
 
         public IActionResult Privacy()
