@@ -17,44 +17,59 @@
     <script src="~/js/jquery.min.js"></script>
     <script src="~/js/tags.js"></script>
     <script src="~/js/search.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js" integrity="sha512-7KzSt4AJ9bLchXCRllnyYUDjfhO2IFEWSa+a5/3kPGQbr+swRTorHQfyADAhSlVHCs1bpFdB1447ZRzFyiiXsg==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.css" integrity="sha512-3eoKq7cU6gdVeT+6eL40YcJLD8dxzQmOK54qxUWVjg7H4NN3u5AA5k5ywrqLV15hOZDBBgdQH/GK5CA9MwDVwg==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.js" integrity="sha512-FbW9TrdqAZVgIOrQeqDRnCe+l0g+aMBP7pWEt/zLWx8zgafpBwvJ6F1rsU+mkvbXuB4mBwS2ehlkZHE9cknTrg==" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.css" integrity="sha512-NVt7pmp5f+3eWRPO1h4A1gCf4opn4r5z2wS1mi7AaVcTzE9wDJ6RzMqSygjDzYHLp+mAJ2/qzXXDHar6IQwddQ==" crossorigin="anonymous" />
 </head>
 
-<input type="text" id="text-to-find" onkeyup="Search()" value="" placeholder="Search" class="m-3">
+<body>
+    <input type="text" id="text-to-find" onkeyup="Search()" value="" placeholder="Search" class="m-3">
 
-<a asp-action="Create" asp-route-userName="@Model.First().OwnerEmail" class="btn btn-primary m-2">Create New</a>
-@if (Model.ToList()[0].Name != null)
-{
-    <table class="table" id="collectionsTable">
-        <tr><td></td><td>Collection name</td><td>Theme</td><td>Description</td><td></td></tr>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <img src="@item.Avatar" alt="Avatar" width="45" />
-                </td>
-                <td>
-                    <a asp-action="CollectionItems" asp-route-id="@item.Id">@item.Name</a>
-                </td>
-                <td>
-                    <input value="@item.Theme" id="@item.Id" readonly />
-                    <script>
+    <a asp-action="Create" asp-route-userName="@Model.First().OwnerEmail" class="btn btn-primary m-2">Create New</a>
+    @if (Model.ToList()[0].Name != null)
+    {
+        <table class="table" id="collectionsTable">
+            <tr><td></td><td>Collection name</td><td>Theme</td><td>Description</td><td></td></tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div class="baguetteBoxOne">
+                            <a href="@item.Avatar">
+                                <img src="@item.Avatar" alt="Avatar" width="45" />
+                            </a>
+                        </div>
+                    </td>
+                    <td>
+                        <a asp-action="CollectionItems" asp-route-id="@item.Id">@item.Name</a>
+                    </td>
+                    <td>
+                        <input value="@item.Theme" id="@item.Id" readonly />
+                        <script>
                         var input = document.querySelector('input[id="@item.Id"]'),
                             tagify = new Tagify(input, {
                             })
-                    </script>
-                </td>
-                <td>
-                    <label>@item.Description</label>
-                </td>
-                <td>
-                    @if (User.Identity.Name == item.OwnerEmail || User.IsInRole("Admin"))
-                    {
-                        <a asp-action="Add" asp-route-id="@item.Id" class="btn btn-primary">Add</a>
-                        <a asp-action="DeleteCollection" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-                        <a asp-action="EditCollection" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
-                    }
-                </td>
-            </tr>
-        }
-    </table>
-}
+                        </script>
+                    </td>
+                    <td>
+                        <label>@item.Description</label>
+                    </td>
+                    <td>
+                        @if (User.Identity.Name == item.OwnerEmail || User.IsInRole("Admin"))
+                        {
+                            <a asp-action="Add" asp-route-id="@item.Id" class="btn btn-primary">Add</a>
+                            <a asp-action="DeleteCollection" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                            <a asp-action="EditCollection" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                        }
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+    <script>
+        window.addEventListener('load', function () {
+            baguetteBox.run('.baguetteBoxOne');
+        });
+    </script>
+</body>
