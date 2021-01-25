@@ -16,6 +16,7 @@
 <input type="text" id="text-to-find" onkeyup="Search()" value="" placeholder="Search" class="m-3">
 
 <a asp-action="CreateCollection" asp-route-userName="@ViewBag.userName" class="btn btn-primary m-2">Create collection</a>
+
 <table class="table" id="collectionsTable">
     <tr><td></td><td>Collection name</td><td>Theme</td><td>Description</td><td></td></tr>
     @foreach (var item in Model)
@@ -39,8 +40,12 @@
                 <label>@item.Description</label>
             </td>
             <td>
-                <a asp-controller="Collections" asp-action="Add" asp-route-id="@item.Id" class="btn btn-primary">Add</a>
-                <a asp-action="DeleteCollection" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                @if (User.Identity.Name == item.OwnerEmail || User.IsInRole("Admin"))
+                {
+                    <a asp-controller="Collections" asp-action="Add" asp-route-id="@item.Id" class="btn btn-primary">Add</a>
+                    <a asp-action="DeleteCollection" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                    <a asp-action="EditCollection" asp-controller="Collections" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                }
             </td>
         </tr>
     }

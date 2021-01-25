@@ -27,7 +27,7 @@ namespace CourseProjectItr.Controllers
             );
         private readonly Cloudinary cloudinary = new Cloudinary(account);
 
-        public CollectionsController(CourseDbContext db , UserManager<ApplicationUser> userManager)
+        public CollectionsController(CourseDbContext db, UserManager<ApplicationUser> userManager)
         {
             _db = db;
             _userManager = userManager;
@@ -65,9 +65,13 @@ namespace CourseProjectItr.Controllers
             return View(_db.FileModel.Where(x => x.CollectionId == id));
         }
 
-        public IActionResult Add()
+        public IActionResult Add(int id)
         {
-            return View();
+            var collection = _db.Collection.Find(id);
+            if (User.Identity.Name == collection.OwnerEmail || User.IsInRole("Admin"))
+                return View();
+            else
+                return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -75,43 +79,13 @@ namespace CourseProjectItr.Controllers
         {
             var collection = _db.Collection.Find(id);
             FileModel fileModel = new FileModel();
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/files", file.FileName);
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
+            
             fileModel.CollectionId = id;
             if (collection.Files == null)
                 collection.Files = new List<FileModel>();
             collection.Files.Add(fileModel);
 
-            var imageExtensions = new List<string> { ".jpg", ".jpeg", ".bmp", ".gif", ".png" };
-            var videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
-            if (imageExtensions.Contains(Path.GetExtension(file.FileName)))
-            {
-                var uploadParams = new ImageUploadParams()
-                {
-                    File = new FileDescription(@"wwwroot/files/" + file.FileName)
-                };
-                var uploadResult = cloudinary.Upload(uploadParams);
-                fileModel.FilePath = uploadResult.Url.ToString();
-                System.IO.File.Delete("wwwroot/files/" + file.FileName);
-            }
-            else if (videoExtensions.Contains(Path.GetExtension(file.FileName)))
-            {
-                var uploadParams = new VideoUploadParams()
-                {
-                    File = new FileDescription(@"wwwroot/files/" + file.FileName)
-                };
-                var uploadResult = cloudinary.Upload(uploadParams);
-                fileModel.FilePath = uploadResult.Url.ToString();
-                System.IO.File.Delete("wwwroot/files/" + file.FileName);
-            }
-            else
-            {
-                fileModel.FilePath = file.FileName;
-            }
-
+            fileModel.FilePath = UploadFile(file);
             fileModel.Tags = tags;
 
             if (ModelState.IsValid)
@@ -127,7 +101,10 @@ namespace CourseProjectItr.Controllers
         public IActionResult Create(string userName)
         {
             ViewBag.userName = userName;
-            return View();
+            if (User.Identity.Name == userName || User.IsInRole("Admin"))
+                return View();
+            else
+                return RedirectToAction("Index", "Home");
         }
 
         [HttpPost]
@@ -135,19 +112,8 @@ namespace CourseProjectItr.Controllers
         {
             collection.OwnerEmail = userEmail;
             collection.Files = new List<FileModel>();
-            
-            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/files", file.FileName);
-            using (var stream = new FileStream(path, FileMode.Create))
-            {
-                await file.CopyToAsync(stream);
-            }
-            var uploadParams = new ImageUploadParams()
-            {
-                File = new FileDescription(@"wwwroot/files/" + file.FileName)
-            };
-            var uploadResult = cloudinary.Upload(uploadParams);
-            collection.Avatar = uploadResult.Url.ToString();
-            System.IO.File.Delete("wwwroot/files/" + file.FileName);
+
+            collection.Avatar = UploadFile(file);
 
             if (ModelState.IsValid)
             {
@@ -159,21 +125,66 @@ namespace CourseProjectItr.Controllers
             return View("Create");
         }
 
+        public string UploadFile(IFormFile file)
+        {
+            var imageExtensions = new List<string> { ".jpg", ".jpeg", ".bmp", ".gif", ".png" };
+            var videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
+
+            var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/files", file.FileName);
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                file.CopyTo(stream);
+            }
+            if (imageExtensions.Contains(Path.GetExtension(file.FileName)))
+            {
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(@"wwwroot/files/" + file.FileName)
+                };
+                var uploadResult = cloudinary.Upload(uploadParams);
+                System.IO.File.Delete("wwwroot/files/" + file.FileName);
+                return uploadResult.Url.ToString();
+            }
+            else if (videoExtensions.Contains(Path.GetExtension(file.FileName)))
+            {
+                var uploadParams = new VideoUploadParams()
+                {
+                    File = new FileDescription(@"wwwroot/files/" + file.FileName)
+                };
+                var uploadResult = cloudinary.Upload(uploadParams);
+                System.IO.File.Delete("wwwroot/files/" + file.FileName);
+                return uploadResult.Url.ToString();
+            }
+            else
+            {
+                return file.FileName;
+            }
+        }
+
         public async Task<IActionResult> DeleteItem(int id)
         {
             var item = await _db.FileModel.FindAsync(id);
             var collection = _db.Collection.First(x => x.Id == item.CollectionId);
 
+            DeleteFile(item.FilePath);
+
+            _db.FileModel.Remove(item);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("CollectionItems", new { collection.Id });
+        }
+
+        public void DeleteFile(string filePath)
+        {
             var imageExtensions = new List<string> { ".jpg", ".jpeg", ".bmp", ".gif", ".png" };
             var videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
-            if (imageExtensions.Contains(Path.GetExtension(item.FilePath)))
+            if (imageExtensions.Contains(Path.GetExtension(filePath)))
             {
-                var deletionParams = new DeletionParams(Path.GetFileNameWithoutExtension(item.FilePath));
+                var deletionParams = new DeletionParams(Path.GetFileNameWithoutExtension(filePath));
                 var deletionResult = cloudinary.Destroy(deletionParams);
             }
-            else if (videoExtensions.Contains(Path.GetExtension(item.FilePath)))
+            else if (videoExtensions.Contains(Path.GetExtension(filePath)))
             {
-                var deletionParams = new DeletionParams(Path.GetFileNameWithoutExtension(item.FilePath))
+                var deletionParams = new DeletionParams(Path.GetFileNameWithoutExtension(filePath))
                 {
                     ResourceType = ResourceType.Video
                 };
@@ -181,18 +192,13 @@ namespace CourseProjectItr.Controllers
             }
             else
             {
-                System.IO.File.Delete("wwwroot/files/" + item.FilePath);
+                System.IO.File.Delete("wwwroot/files/" + filePath);
             }
-
-            _db.FileModel.Remove(item);
-            await _db.SaveChangesAsync();
-            return RedirectToAction("CollectionItems", new { collection.Id });
         }
 
         public async Task<IActionResult> DeleteCollection(int id)
         {
             var collection = await _db.Collection.FindAsync(id);
-            var name = collection.OwnerEmail;
             var items = await _db.FileModel.Where(x => x.CollectionId == id).ToListAsync();
 
             var deletionParams = new DeletionParams(Path.GetFileNameWithoutExtension(collection.Avatar));
@@ -205,7 +211,35 @@ namespace CourseProjectItr.Controllers
 
             _db.Remove(collection);
             await _db.SaveChangesAsync();
-            return RedirectToAction("UserCollectionsList", new { name });
+            return RedirectToAction("UserCollectionsList", new { name = collection.OwnerEmail });
+        }
+
+        public IActionResult EditCollection(int id)
+        {
+            var collection = _db.Collection.Find(id);
+            if (User.Identity.Name == collection.OwnerEmail || User.IsInRole("Admin"))
+                return View(collection);
+            else
+                return RedirectToAction("Index", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditCollection(Collection collection, IFormFile file)
+        {
+            var collectionDb = await _db.Collection.FindAsync(collection.Id);
+            collectionDb.Name = collection.Name;
+            collectionDb.Theme = collection.Theme;
+            collectionDb.Description = collection.Description;
+            
+            if (file != null)
+            {
+                DeleteFile(collectionDb.Avatar);
+                collectionDb.Avatar = UploadFile(file);
+            }
+
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("UserCollectionsList", new { name = collectionDb.OwnerEmail });
         }
     }
 }

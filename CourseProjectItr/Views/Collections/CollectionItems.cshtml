@@ -9,10 +9,13 @@
     <script src="~/js/tags.js"></script>
 </head>
 
-@if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
-{
-    <div><a asp-action="Add" asp-route-id="@ViewBag.id" class="btn btn-primary m-1">Add item</a></div>
-}
+<div>
+    <a asp-action="UserCollectionsList" asp-route-name="@ViewBag.userName">&#8592 Collections</a>
+    @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+    {
+        <a asp-action="Add" asp-route-id="@ViewBag.id" class="btn btn-primary m-1">Add item</a>
+    }
+</div>
 
 @foreach (var item in Model)
 {
@@ -30,14 +33,14 @@
         <div>
             @if (ViewBag.imageExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
             {
-                <div class="align-top d-inline-block collection-item">
-                    <img src="@item.FilePath" width="220" />
-                    @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
-                    {
-                        <a class="delete-btn btn btn-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
-                        <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
-                    }
-                </div>
+            <div class="align-top d-inline-block collection-item">
+                <img src="@item.FilePath" width="220" />
+                @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                {
+                    <a class="delete-btn btn btn-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                }
+                <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
+            </div>
 
             }
             else if (ViewBag.audioExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
@@ -48,8 +51,8 @@
                         @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                         {
                             <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
-                            <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
                         }
+                        <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
                     </div>
                     <div>
                         <audio controls>
@@ -66,8 +69,8 @@
                         @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                         {
                             <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
-                            <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
                         }
+                        <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
                     </div>
                     <div class="text-center">
                         <a href="~/files/@item.FilePath">@item.FilePath</a>
@@ -82,8 +85,8 @@
                         @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                         {
                             <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
-                            <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
                         }
+                        <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
                     </div>
                 </div>
             }
@@ -95,8 +98,8 @@
                         @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                         {
                             <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
-                            <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
                         }
+                        <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
                     </div>
                 </div>
 

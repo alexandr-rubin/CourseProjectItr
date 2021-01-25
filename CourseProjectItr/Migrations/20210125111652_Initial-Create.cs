@@ -26,8 +26,6 @@ namespace CourseProjectItr.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RegistrationDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     LastLoginDate = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     LockoutStatus = table.Column<bool>(type: "bit", nullable: false),
@@ -59,7 +57,7 @@ namespace CourseProjectItr.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Theme = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Theme = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     OwnerEmail = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },

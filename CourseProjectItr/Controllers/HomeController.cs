@@ -46,10 +46,11 @@ namespace CourseProjectItr.Controllers
                 {
                     maxItems = files.Where(x => x.CollectionId == item.Id).ToList().Count;
                     collectionId = item.Id;
+                    ViewBag.userName = item.OwnerEmail;
+                    ViewBag.id = item.Id;
                 }
             }
-
-            ViewBag.userName = collections.First(x => x.Id == collectionId).OwnerEmail;
+            
 
             return View(_db.FileModel.Where(x => x.CollectionId == collectionId).ToList());
         }

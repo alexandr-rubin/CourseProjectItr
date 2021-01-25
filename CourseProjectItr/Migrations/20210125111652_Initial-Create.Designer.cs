@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseProjectItr.Migrations
 {
     [DbContext(typeof(CourseDbContext))]
-    [Migration("20210122112725_Initial-Create")]
+    [Migration("20210125111652_Initial-Create")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -40,14 +40,8 @@ namespace CourseProjectItr.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTimeOffset>("LastLoginDate")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -122,6 +116,7 @@ namespace CourseProjectItr.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Theme")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

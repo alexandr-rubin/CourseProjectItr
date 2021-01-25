@@ -10,10 +10,6 @@ namespace CourseProjectItr.Areas.Identity.Data
     public class ApplicationUser : IdentityUser
     {
         [PersonalData]
-        public string FirstName { get; set; }
-        [PersonalData]
-        public string LastName { get; set; }
-        [PersonalData]
         public DateTimeOffset RegistrationDate { get; set; }
         [PersonalData]
         public DateTimeOffset LastLoginDate { get; set; }

@@ -6,6 +6,9 @@
     display: none;
 }
 
+.collection-item:hover {
+}
+
 .collection-item:hover .delete-btn {
     color: white;
     display: block;
@@ -21,10 +24,38 @@
 }
 
 .collection-item:hover .tags {
-    color:white;
+    color:lightgray;
     display:block;
     position: absolute;
     top: 20%;
+    left: 80%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+.collection-link {
+    display: none;
+}
+
+.collection-item:hover .collection-link {
+    color: lightgray;
+    display: block;
+    position: absolute;
+    top: 90%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}
+
+.creator {
+    display: none;
+}
+
+.collection-item:hover .creator {
+    color: lightgray;
+    display: block;
+    position: absolute;
+    top: 90%;
     left: 80%;
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);

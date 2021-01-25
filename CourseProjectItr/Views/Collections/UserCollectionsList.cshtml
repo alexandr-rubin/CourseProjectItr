@@ -47,8 +47,12 @@
                     <label>@item.Description</label>
                 </td>
                 <td>
-                    <a asp-action="Add" asp-route-id="@item.Id" class="btn btn-primary">Add</a>
-                    <a asp-action="DeleteCollection" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                    @if (User.Identity.Name == item.OwnerEmail || User.IsInRole("Admin"))
+                    {
+                        <a asp-action="Add" asp-route-id="@item.Id" class="btn btn-primary">Add</a>
+                        <a asp-action="DeleteCollection" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
+                        <a asp-action="EditCollection" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                    }
                 </td>
             </tr>
         }

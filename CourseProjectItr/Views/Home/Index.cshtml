@@ -13,8 +13,11 @@
     <script src="~/js/tags.js"></script>
 </head>
 
-@foreach (var item in Model)
+
+
+@for (int i = 0; i < Model.ToList().Count; i++)
 {
+    var item = Model.ToList()[i];
     <div class="align-top d-inline-block">
         <div hidden id="hidden_@item.Id">
             <div class="align-top d-inline-block">
@@ -29,14 +32,16 @@
         <div>
             @if (ViewBag.imageExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
             {
-                <div class="align-top d-inline-block collection-item">
-                    <img src="@item.FilePath" width="220" />
-                    @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
-                    {
-                        <a class="delete-btn btn btn-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
-                    }
-                    <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
-                </div>
+            <div class="align-top d-inline-block collection-item">
+                <img src="@item.FilePath" width="220" />
+                @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                {
+                    <a class="delete-btn btn btn-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                }
+                <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
+                <a class="collection-link" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
+                <a class="creator" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
+            </div>
 
             }
             else if (ViewBag.audioExtensions.Contains(System.IO.Path.GetExtension($"~/files/{@item.FilePath}")))
@@ -49,6 +54,8 @@
                             <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                         }
                         <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
+                        <a class="collection-link" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
+                        <a class="creator" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
                     </div>
                     <div>
                         <audio controls>
@@ -67,6 +74,8 @@
                             <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                         }
                         <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
+                        <a class="collection-link" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
+                        <a class="creator" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
                     </div>
                     <div class="text-center">
                         <a href="~/files/@item.FilePath">@item.FilePath</a>
@@ -83,6 +92,8 @@
                             <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                         }
                         <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
+                        <a class="collection-link" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
+                        <a class="creator" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
                     </div>
                 </div>
             }
@@ -96,6 +107,8 @@
                             <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                         }
                         <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
+                        <a class="collection-link" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
+                        <a class="creator" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
                     </div>
                 </div>
 
@@ -103,5 +116,8 @@
         </div>
     </div>
 
-
+    if (i == 20)
+    {
+        break;
+    }
 }
