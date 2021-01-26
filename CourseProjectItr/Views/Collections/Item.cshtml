@@ -12,93 +12,97 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.js" integrity="sha512-FbW9TrdqAZVgIOrQeqDRnCe+l0g+aMBP7pWEt/zLWx8zgafpBwvJ6F1rsU+mkvbXuB4mBwS2ehlkZHE9cknTrg==" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.css" integrity="sha512-NVt7pmp5f+3eWRPO1h4A1gCf4opn4r5z2wS1mi7AaVcTzE9wDJ6RzMqSygjDzYHLp+mAJ2/qzXXDHar6IQwddQ==" crossorigin="anonymous" />
 </head>
-<body>
-    <div>
-        <div class="align-top d-inline-block">
-            <input value="@Model.Tags" id="@Model.Id" readonly />
-            <script>
-                var input = document.querySelector('input[id="@Model.Id"]'),
-                    tagify = new Tagify(input, {
-                    })
-            </script>
+@if (Model != null)
+{
+    <body>
+        <div>
+            <div class="align-top d-inline-block">
+                <input value="@Model.Tags" id="@Model.Id" readonly />
+                <script>
+                    var input = document.querySelector('input[id="@Model.Id"]'),
+                        tagify = new Tagify(input, {
+                        })
+                </script>
+            </div>
         </div>
-    </div>
-    <div>
-        @if (ViewBag.imageExtensions.Contains(System.IO.Path.GetExtension($"~/files/{Model.FilePath}")))
-        {
-            <div class="align-top d-inline-block collection-item baguetteBoxOne">
-                <a href="@Model.FilePath">
-                    <img src="@Model.FilePath" width="220" />
-                </a>
+        <div>
+            @if (ViewBag.imageExtensions.Contains(System.IO.Path.GetExtension($"~/files/{Model.FilePath}")))
+            {
+                <div class="align-top d-inline-block collection-item baguetteBoxOne">
+                    <a href="@Model.FilePath">
+                        <img src="@Model.FilePath" width="220" />
+                    </a>
 
-                @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
-                {
-                    <a class="delete-btn btn btn-danger" asp-action="DeleteItem" asp-route-id="@Model.Id">Delete</a>
-                }
-            </div>
-        }
-        else if (ViewBag.audioExtensions.Contains(System.IO.Path.GetExtension($"~/files/{Model.FilePath}")))
-        {
-            <div class="d-inline-block align-top text-center">
-                <div class="collection-item">
-                    <img src="~/files/MusicImageCollectionItem.jpg" width="200" />
                     @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                     {
-                        <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@Model.Id">Delete</a>
+                        <a class="delete-btn btn btn-danger" asp-action="DeleteItem" asp-route-id="@Model.Id">Delete</a>
                     }
                 </div>
-                <div>
-                    <audio controls>
-                        <source src="~/files/@Model.FilePath" />
-                    </audio>
+            }
+            else if (ViewBag.audioExtensions.Contains(System.IO.Path.GetExtension($"~/files/{Model.FilePath}")))
+            {
+                <div class="d-inline-block align-top text-center">
+                    <div class="collection-item">
+                        <img src="~/files/MusicImageCollectionItem.jpg" width="200" />
+                        @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                        {
+                            <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@Model.Id">Delete</a>
+                        }
+                    </div>
+                    <div>
+                        <audio controls>
+                            <source src="~/files/@Model.FilePath" />
+                        </audio>
+                    </div>
                 </div>
-            </div>
-        }
-        else if (ViewBag.textExtensions.Contains(System.IO.Path.GetExtension($"~/files/{Model.FilePath}")))
-        {
-            <div class="d-inline-block">
-                <div class="text-center collection-item">
-                    <img src="~/files/fileIconInCollection.png" width="220" />
-                    @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
-                    {
-                        <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@Model.Id">Delete</a>
-                    }
+            }
+            else if (ViewBag.textExtensions.Contains(System.IO.Path.GetExtension($"~/files/{Model.FilePath}")))
+            {
+                <div class="d-inline-block">
+                    <div class="text-center collection-item">
+                        <img src="~/files/fileIconInCollection.png" width="220" />
+                        @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                        {
+                            <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@Model.Id">Delete</a>
+                        }
+                    </div>
+                    <div class="text-center">
+                        <a href="~/files/@Model.FilePath">@Model.FilePath</a>
+                    </div>
                 </div>
-                <div class="text-center">
-                    <a href="~/files/@Model.FilePath">@Model.FilePath</a>
+            }
+            else if (ViewBag.videoExtensions.Contains(System.IO.Path.GetExtension($"~/files/{Model.FilePath}")))
+            {
+                <div class="d-inline-block">
+                    <div class="text-center collection-item">
+                        <video src="@Model.FilePath" controls width="390"></video>
+                        @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                        {
+                            <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@Model.Id">Delete</a>
+                        }
+                    </div>
                 </div>
-            </div>
-        }
-        else if (ViewBag.videoExtensions.Contains(System.IO.Path.GetExtension($"~/files/{Model.FilePath}")))
-        {
-            <div class="d-inline-block">
-                <div class="text-center collection-item">
-                    <video src="@Model.FilePath" controls width="390"></video>
-                    @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
-                    {
-                        <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@Model.Id">Delete</a>
-                    }
+            }
+            else
+            {
+                <div class="d-inline-block">
+                    <div class="text-center collection-item">
+                        <iframe src="~/files/@Model.FilePath" width="390"></iframe>
+                        @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
+                        {
+                            <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@Model.Id">Delete</a>
+                        }
+                    </div>
                 </div>
-            </div>
-        }
-        else
-        {
-            <div class="d-inline-block">
-                <div class="text-center collection-item">
-                    <iframe src="~/files/@Model.FilePath" width="390"></iframe>
-                    @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
-                    {
-                        <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@Model.Id">Delete</a>
-                    }
-                </div>
-            </div>
-        }
-    </div>
+            }
+        </div>
 
-    <script>
-        window.addEventListener('load', function () {
-            baguetteBox.run('.baguetteBoxOne');
-        });
-    </script>
-</body>
+        <script>
+            window.addEventListener('load', function () {
+                baguetteBox.run('.baguetteBoxOne');
+            });
+        </script>
+    </body>
+}
+
 

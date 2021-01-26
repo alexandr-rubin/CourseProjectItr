@@ -10,7 +10,7 @@
     <form asp-action="create" asp-controller="collections" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label asp-for="Name" class="control-label">Collection name</label>
-            <input type="text" asp-for="Name" class="form-control" required oninvalid="this.setCustomValidity('Enter collection name')" oninput="setCustomValidity('')" />
+            <input type="text" asp-for="Name" class="form-control" required />
         </div>
         <div class="form-group">
             <label asp-for="Theme" class="control-label">Theme(required)</label>
@@ -21,7 +21,7 @@
             <input type="text" asp-for="Description" class="form-control" />
         </div>
         <div class="form-group">
-            <input type="file" name="file" required oninvalid="this.setCustomValidity('Choose file')" oninput="setCustomValidity('')" />
+            <input type="file" name="file" required />
         </div>
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-primary" asp-route-userEmail="@ViewBag.userName" />
