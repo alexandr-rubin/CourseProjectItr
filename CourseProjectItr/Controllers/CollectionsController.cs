@@ -53,9 +53,10 @@ namespace CourseProjectItr.Controllers
             return View(await _db.Collection.Where(x => x.OwnerEmail == name).ToListAsync());
         }
 
-        public IActionResult CollectionItems(int id)
+        public async Task<IActionResult> CollectionItems(int id)
         {
-            var collection = _db.Collection.First(x => x.Id == id);
+            var collection = await _db.Collection.FindAsync(id);
+            ViewBag.collection = collection;
             ViewBag.id = collection.Id;
             ViewBag.userName = collection.OwnerEmail;
             ViewBag.imageExtensions = new List<string> { ".jpg", ".jpeg", ".bmp", ".gif", ".png" };
@@ -65,9 +66,10 @@ namespace CourseProjectItr.Controllers
             return View(_db.FileModel.Where(x => x.CollectionId == id));
         }
 
-        public IActionResult Add(int id)
+        public async Task<IActionResult> Add(int id)
         {
-            var collection = _db.Collection.Find(id);
+            var collection = await _db.Collection.FindAsync(id);
+            ViewBag.collection = collection;
             if (User.Identity.Name == collection.OwnerEmail || User.IsInRole("Admin"))
                 return View();
             else
@@ -75,10 +77,9 @@ namespace CourseProjectItr.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(int id, IFormFile file, string tags)
+        public async Task<IActionResult> Add(int id, IFormFile file, FileModel fileModel)
         {
             var collection = await _db.Collection.FindAsync(id);
-            FileModel fileModel = new FileModel();
             
             fileModel.CollectionId = id;
             if (collection.Files == null)
@@ -86,7 +87,6 @@ namespace CourseProjectItr.Controllers
             collection.Files.Add(fileModel);
 
             fileModel.FilePath = UploadFile(file);
-            fileModel.Tags = tags;
 
             if (ModelState.IsValid)
             {
@@ -226,20 +226,16 @@ namespace CourseProjectItr.Controllers
         [HttpPost]
         public async Task<IActionResult> EditCollection(Collection collection, IFormFile file)
         {
-            var collectionDb = await _db.Collection.FindAsync(collection.Id);
-            collectionDb.Name = collection.Name;
-            collectionDb.Theme = collection.Theme;
-            collectionDb.Description = collection.Description;
-            
             if (file != null)
             {
-                DeleteFile(collectionDb.Avatar);
-                collectionDb.Avatar = UploadFile(file);
+                DeleteFile(collection.Avatar);
+                collection.Avatar = UploadFile(file);
             }
 
+            _db.Collection.Update(collection);
             await _db.SaveChangesAsync();
 
-            return RedirectToAction("UserCollectionsList", new { name = collectionDb.OwnerEmail });
+            return RedirectToAction("UserCollectionsList", new { name = collection.OwnerEmail });
         }
 
         public async Task<IActionResult> Item(int id)

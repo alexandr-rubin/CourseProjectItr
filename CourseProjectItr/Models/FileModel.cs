@@ -11,6 +11,21 @@ namespace CourseProjectItr.Models
         public string FilePath { get; set; }
         public string FileName { get; set; }
         public string Tags { get; set; }
+        public int IntField1 { get; set; }
+        public int IntField2 { get; set; }
+        public int IntField3 { get; set; }
+        public string OneLineField1 { get; set; }
+        public string OneLineField2 { get; set; }
+        public string OneLineField3 { get; set; }
+        public string TextField1 { get; set; }
+        public string TextField2 { get; set; }
+        public string TextField3 { get; set; }
+        public DateTime DateField1 { get; set; }
+        public DateTime DateField2 { get; set; }
+        public DateTime DateField3 { get; set; }
+        public bool BoolField1 { get; set; }
+        public bool BoolField2 { get; set; }
+        public bool BoolField3 { get; set; }
         public int CollectionId { get; set; }
     }
 }

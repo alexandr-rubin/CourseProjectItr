@@ -103,15 +103,60 @@ namespace CourseProjectItr.Migrations
                     b.Property<string>("Avatar")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("BoolField1")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("BoolField2")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("BoolField3")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("DateField1")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("DateField2")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("DateField3")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IntField1")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IntField2")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IntField3")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool>("OneLineField1")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("OneLineField2")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("OneLineField3")
+                        .HasColumnType("bit");
+
                     b.Property<string>("OwnerEmail")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TextField1")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TextField2")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("TextField3")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Theme")
                         .IsRequired()
@@ -129,13 +174,61 @@ namespace CourseProjectItr.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<bool>("BoolField1")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("BoolField2")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("BoolField3")
+                        .HasColumnType("bit");
+
                     b.Property<int>("CollectionId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime>("DateField1")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateField2")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateField3")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FileName")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FilePath")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("IntField1")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IntField2")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IntField3")
+                        .HasColumnType("int");
+
+                    b.Property<string>("OneLineField1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OneLineField2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OneLineField3")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Tags")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TextField1")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TextField2")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TextField3")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

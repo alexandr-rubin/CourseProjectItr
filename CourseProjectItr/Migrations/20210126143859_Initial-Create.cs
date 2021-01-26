@@ -59,7 +59,22 @@ namespace CourseProjectItr.Migrations
                     Avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Theme = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    OwnerEmail = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    OwnerEmail = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IntField1 = table.Column<bool>(type: "bit", nullable: false),
+                    IntField2 = table.Column<bool>(type: "bit", nullable: false),
+                    IntField3 = table.Column<bool>(type: "bit", nullable: false),
+                    OneLineField1 = table.Column<bool>(type: "bit", nullable: false),
+                    OneLineField2 = table.Column<bool>(type: "bit", nullable: false),
+                    OneLineField3 = table.Column<bool>(type: "bit", nullable: false),
+                    TextField1 = table.Column<bool>(type: "bit", nullable: false),
+                    TextField2 = table.Column<bool>(type: "bit", nullable: false),
+                    TextField3 = table.Column<bool>(type: "bit", nullable: false),
+                    DateField1 = table.Column<bool>(type: "bit", nullable: false),
+                    DateField2 = table.Column<bool>(type: "bit", nullable: false),
+                    DateField3 = table.Column<bool>(type: "bit", nullable: false),
+                    BoolField1 = table.Column<bool>(type: "bit", nullable: false),
+                    BoolField2 = table.Column<bool>(type: "bit", nullable: false),
+                    BoolField3 = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -179,7 +194,23 @@ namespace CourseProjectItr.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FilePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Tags = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IntField1 = table.Column<int>(type: "int", nullable: false),
+                    IntField2 = table.Column<int>(type: "int", nullable: false),
+                    IntField3 = table.Column<int>(type: "int", nullable: false),
+                    OneLineField1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OneLineField2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    OneLineField3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TextField1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TextField2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TextField3 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DateField1 = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateField2 = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateField3 = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    BoolField1 = table.Column<bool>(type: "bit", nullable: false),
+                    BoolField2 = table.Column<bool>(type: "bit", nullable: false),
+                    BoolField3 = table.Column<bool>(type: "bit", nullable: false),
                     CollectionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
