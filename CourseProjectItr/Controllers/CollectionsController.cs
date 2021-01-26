@@ -77,7 +77,7 @@ namespace CourseProjectItr.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(int id, IFormFile file, string tags)
         {
-            var collection = _db.Collection.Find(id);
+            var collection = await _db.Collection.FindAsync(id);
             FileModel fileModel = new FileModel();
             
             fileModel.CollectionId = id;
@@ -214,9 +214,9 @@ namespace CourseProjectItr.Controllers
             return RedirectToAction("UserCollectionsList", new { name = collection.OwnerEmail });
         }
 
-        public IActionResult EditCollection(int id)
+        public async Task<IActionResult> EditCollection(int id)
         {
-            var collection = _db.Collection.Find(id);
+            var collection = await _db.Collection.FindAsync(id);
             if (User.Identity.Name == collection.OwnerEmail || User.IsInRole("Admin"))
                 return View(collection);
             else
@@ -240,6 +240,16 @@ namespace CourseProjectItr.Controllers
             await _db.SaveChangesAsync();
 
             return RedirectToAction("UserCollectionsList", new { name = collectionDb.OwnerEmail });
+        }
+
+        public async Task<IActionResult> Item(int id)
+        {
+            ViewBag.imageExtensions = new List<string> { ".jpg", ".jpeg", ".bmp", ".gif", ".png" };
+            ViewBag.audioExtensions = new List<string> { ".mp3", ".wav", ".wma", ".wpl", ".mid", ".midi", ".aif", ".cda", ".mpa", ".ogg" };
+            ViewBag.videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
+            ViewBag.textExtensions = new List<string> { ".doc", ".docx", ".odt", ".pdf", ".rtf", ".tex", ".txt", ".wpd", ".fb2" };
+
+            return View(await _db.FileModel.FindAsync(id));
         }
     }
 }

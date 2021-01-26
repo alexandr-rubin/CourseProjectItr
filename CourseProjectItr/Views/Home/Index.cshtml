@@ -44,9 +44,17 @@
                         {
                             <a class="delete-btn btn btn-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                         }
+                        <div class="nav-item dropdown menu">
+                            <button class="dropdown-toggle btn btn-primary" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                               id="dropdownMenuButton">
+                                ...
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
+                                <a class="dropdown-item" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
+                            </div>
+                        </div>
                         <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
-                        <a class="collection-link" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
-                        <a class="creator" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
                     </div>
 
                 }
@@ -59,9 +67,17 @@
                             {
                                 <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                             }
+                            <div class="nav-item dropdown menu">
+                                <button class="dropdown-toggle btn btn-primary" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                        id="dropdownMenuButton">
+                                    ...
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
+                                    <a class="dropdown-item" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
+                                </div>
+                            </div>
                             <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
-                            <a class="collection-link" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
-                            <a class="creator" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
                         </div>
                         <div>
                             <audio controls>
@@ -79,9 +95,17 @@
                             {
                                 <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                             }
+                            <div class="nav-item dropdown menu">
+                                <button class="dropdown-toggle btn btn-primary" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                        id="dropdownMenuButton">
+                                    ...
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
+                                    <a class="dropdown-item" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
+                                </div>
+                            </div>
                             <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
-                            <a class="collection-link" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
-                            <a class="creator" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
                         </div>
                         <div class="text-center">
                             <a href="~/files/@item.FilePath">@item.FilePath</a>
@@ -97,9 +121,17 @@
                             {
                                 <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                             }
+                            <div class="nav-item dropdown menu">
+                                <button class="dropdown-toggle btn btn-primary" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                        id="dropdownMenuButton">
+                                    ...
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
+                                    <a class="dropdown-item" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
+                                </div>
+                            </div>
                             <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
-                            <a class="collection-link" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
-                            <a class="creator" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
                         </div>
                     </div>
                 }
@@ -112,9 +144,17 @@
                             {
                                 <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                             }
+                            <div class="nav-item dropdown menu">
+                                <button class="dropdown-toggle btn btn-primary" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                                        id="dropdownMenuButton">
+                                    ...
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
+                                    <a class="dropdown-item" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
+                                </div>
+                            </div>
                             <a class="tags btn btn-primary" onclick="DisplayTags('hidden_@item.Id')">Tags</a>
-                            <a class="collection-link" asp-action="CollectionItems" asp-controller="Collections" asp-route-id="@ViewBag.id">Collection</a>
-                            <a class="creator" asp-action="UserProfilePage" asp-controller="UserProfilePage" asp-route-name="@ViewBag.userName">Сreator</a>
                         </div>
                     </div>
 

@@ -33,25 +33,12 @@
     -ms-transform: translate(-50%, -50%);
 }
 
-.collection-link {
+.menu {
     display: none;
 }
 
-.collection-item:hover .collection-link {
-    color: lightgray;
-    display: block;
-    position: absolute;
-    top: 90%;
-    left: 20%;
-    transform: translate(-50%, -50%);
-    -ms-transform: translate(-50%, -50%);
-}
-
-.creator {
-    display: none;
-}
-
-.collection-item:hover .creator {
+.collection-item:hover .menu {
+    z-index: 99;
     color: lightgray;
     display: block;
     position: absolute;
