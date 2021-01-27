@@ -87,6 +87,7 @@ namespace CourseProjectItr.Controllers
             collection.Files.Add(fileModel);
 
             fileModel.FilePath = UploadFile(file);
+            fileModel.Id = 0;
 
             if (ModelState.IsValid)
             {
