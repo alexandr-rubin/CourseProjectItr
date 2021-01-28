@@ -82,7 +82,7 @@ namespace CourseProjectItr.Controllers
 
             foreach (var user in _userManager.Users)
             {
-                if (await _userManager.IsInRoleAsync(user, role.Name))
+                if (User.IsInRole(role.Name))
                 {
                     model.Users.Add(user.UserName);
                 }
@@ -141,7 +141,7 @@ namespace CourseProjectItr.Controllers
                     UserName = user.UserName
                 };
 
-                if (await _userManager.IsInRoleAsync(user, role.Name))
+                if (User.IsInRole(role.Name))
                 {
                     userRoleViewModel.IsSelected = true;
                 }

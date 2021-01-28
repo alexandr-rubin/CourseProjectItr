@@ -19,6 +19,7 @@ namespace CourseProjectItr.Data
 
         public DbSet<Collection> Collection { get; set; }
         public DbSet<FileModel> FileModel { get; set; }
+        public DbSet<Comment> Comment { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

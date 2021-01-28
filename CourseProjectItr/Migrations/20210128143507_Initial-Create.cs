@@ -224,6 +224,27 @@ namespace CourseProjectItr.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Comment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserComment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CommentAuthor = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileModelId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Comment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Comment_FileModel_FileModelId",
+                        column: x => x.FileModelId,
+                        principalTable: "FileModel",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -264,6 +285,11 @@ namespace CourseProjectItr.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Comment_FileModelId",
+                table: "Comment",
+                column: "FileModelId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_FileModel_CollectionId",
                 table: "FileModel",
                 column: "CollectionId");
@@ -287,13 +313,16 @@ namespace CourseProjectItr.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "FileModel");
+                name: "Comment");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "FileModel");
 
             migrationBuilder.DropTable(
                 name: "Collection");

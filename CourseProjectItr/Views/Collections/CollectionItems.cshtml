@@ -13,6 +13,17 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.css" integrity="sha512-NVt7pmp5f+3eWRPO1h4A1gCf4opn4r5z2wS1mi7AaVcTzE9wDJ6RzMqSygjDzYHLp+mAJ2/qzXXDHar6IQwddQ==" crossorigin="anonymous" />
 </head>
 <body>
+    @*<form method="get">
+        <div class="row form-group">
+            <div class="m-3">
+                <input name="id" class="form-control" value="@ViewBag.id" />
+                <input name="searchText" class="form-control" />
+            </div>
+            <div class="m-3">
+                <button class="btn btn-success">Search</button>
+            </div>
+        </div>
+    </form>*@
     <div>
         <a asp-action="UserCollectionsList" asp-route-name="@ViewBag.userName">&#8592 Collections</a>
         @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))

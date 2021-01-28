@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.css" integrity="sha512-3eoKq7cU6gdVeT+6eL40YcJLD8dxzQmOK54qxUWVjg7H4NN3u5AA5k5ywrqLV15hOZDBBgdQH/GK5CA9MwDVwg==" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.js" integrity="sha512-FbW9TrdqAZVgIOrQeqDRnCe+l0g+aMBP7pWEt/zLWx8zgafpBwvJ6F1rsU+mkvbXuB4mBwS2ehlkZHE9cknTrg==" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.css" integrity="sha512-NVt7pmp5f+3eWRPO1h4A1gCf4opn4r5z2wS1mi7AaVcTzE9wDJ6RzMqSygjDzYHLp+mAJ2/qzXXDHar6IQwddQ==" crossorigin="anonymous" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
 </head>
 @if (Model != null)
 {
@@ -172,6 +174,49 @@
             </div>
             
         </div>
+
+        <div>
+            @foreach (var item in ViewBag.comments)
+            {
+                <div>
+                    <b class="d-inline-block">@item.CommentAuthor: </b>
+                    <p class="d-inline-block">@item.UserComment</p>
+                </div>
+                
+            }
+        </div>
+
+        <div id="commentroom"></div>
+
+        <form id="form" asp-action="AddComment" asp-controller="Collections" method="post" enctype="multipart/form-data">
+            <input class="form-control" id="userName" value="@User.Identity.Name" hidden />
+            <input class="form-control" id="fileId" value="@Model.Id" name="id" hidden />
+            <textarea class="form-control" type="text" id="comment" name="comment"></textarea>
+            <input type="submit" id="sendBtn" value="Send" class="btn btn-primary mt-1" />
+        </form>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
+        <script src="~/js/comments.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#sendBtn').click(function (e) {
+                    e.preventDefault();
+                    var id = $('#fileId').val();
+                    var comment = $('#comment').val();
+                    $.ajax
+                        ({
+                            type: "POST",
+                            url: '/Collections/AddComment',
+                            data: { "comment": comment, "id": id },
+                            success: function (data) {
+                                $('#form')[0].reset();
+                            }
+                        });
+                });
+            });
+        </script>
 
         <script>
             window.addEventListener('load', function () {

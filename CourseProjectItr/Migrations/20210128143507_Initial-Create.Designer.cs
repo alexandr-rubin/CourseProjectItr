@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseProjectItr.Migrations
 {
     [DbContext(typeof(CourseDbContext))]
-    [Migration("20210127105155_Initial-Create")]
+    [Migration("20210128143507_Initial-Create")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -167,6 +167,29 @@ namespace CourseProjectItr.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Collection");
+                });
+
+            modelBuilder.Entity("CourseProjectItr.Models.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<string>("CommentAuthor")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("FileModelId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserComment")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FileModelId");
+
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("CourseProjectItr.Models.FileModel", b =>
@@ -375,6 +398,15 @@ namespace CourseProjectItr.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("CourseProjectItr.Models.Comment", b =>
+                {
+                    b.HasOne("CourseProjectItr.Models.FileModel", null)
+                        .WithMany("Comments")
+                        .HasForeignKey("FileModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("CourseProjectItr.Models.FileModel", b =>
                 {
                     b.HasOne("CourseProjectItr.Models.Collection", null)
@@ -438,6 +470,11 @@ namespace CourseProjectItr.Migrations
             modelBuilder.Entity("CourseProjectItr.Models.Collection", b =>
                 {
                     b.Navigation("Files");
+                });
+
+            modelBuilder.Entity("CourseProjectItr.Models.FileModel", b =>
+                {
+                    b.Navigation("Comments");
                 });
 #pragma warning restore 612, 618
         }

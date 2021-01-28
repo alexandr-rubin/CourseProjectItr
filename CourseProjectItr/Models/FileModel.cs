@@ -26,6 +26,7 @@ namespace CourseProjectItr.Models
         public bool BoolField1 { get; set; }
         public bool BoolField2 { get; set; }
         public bool BoolField3 { get; set; }
+        public List<Comment> Comments { get; set; }
         public int CollectionId { get; set; }
     }
 }

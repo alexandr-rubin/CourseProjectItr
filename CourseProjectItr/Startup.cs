@@ -43,6 +43,8 @@ namespace CourseProjectItr
             {
                 options.ValidationInterval = TimeSpan.Zero;
             });
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,13 +67,14 @@ namespace CourseProjectItr
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
+                endpoints.MapHub<CommentsHub>("/comment");
             });
         }
     }

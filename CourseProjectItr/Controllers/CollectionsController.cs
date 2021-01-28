@@ -53,7 +53,7 @@ namespace CourseProjectItr.Controllers
             return View(await _db.Collection.Where(x => x.OwnerEmail == name).ToListAsync());
         }
 
-        public async Task<IActionResult> CollectionItems(int id)
+        public async Task<IActionResult> CollectionItems(int id, string searchText)
         {
             var collection = await _db.Collection.FindAsync(id);
             ViewBag.collection = collection;
@@ -63,6 +63,11 @@ namespace CourseProjectItr.Controllers
             ViewBag.audioExtensions = new List<string> { ".mp3", ".wav", ".wma", ".wpl", ".mid", ".midi", ".aif", ".cda", ".mpa", ".ogg" };
             ViewBag.videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
             ViewBag.textExtensions = new List<string> { ".doc", ".docx", ".odt", ".pdf", ".rtf", ".tex", ".txt", ".wpd", ".fb2" };
+            //if (!string.IsNullOrEmpty(searchText))
+            //{
+            //    var result = _db.FileModel.Where(x => x.CollectionId == id && EF.Functions.Contains(x.Tags, searchText)).ToList();
+            //    return View(result);
+            //}
             return View(_db.FileModel.Where(x => x.CollectionId == id));
         }
 
@@ -97,6 +102,33 @@ namespace CourseProjectItr.Controllers
                 return RedirectToAction("CollectionItems", new { collection.Id });
             }
             return View("Add");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddComment(string comment, int id)
+        {
+            var file = await _db.FileModel.FindAsync(id);
+
+            Comment com = new Comment
+            {
+                CommentAuthor = User.Identity.Name,
+                UserComment = comment,
+                FileModelId = id
+            };
+
+            if (file.Comments == null)
+                file.Comments = new List<Comment>();
+
+            file.Comments.Add(com);
+
+            com.Id = 0;
+
+            _db.Add(com);
+            _db.Update(file);
+            await _db.SaveChangesAsync();
+
+            return RedirectToAction("Item", new { id });
+
         }
 
         public IActionResult Create(string userName)
@@ -245,6 +277,7 @@ namespace CourseProjectItr.Controllers
             ViewBag.audioExtensions = new List<string> { ".mp3", ".wav", ".wma", ".wpl", ".mid", ".midi", ".aif", ".cda", ".mpa", ".ogg" };
             ViewBag.videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
             ViewBag.textExtensions = new List<string> { ".doc", ".docx", ".odt", ".pdf", ".rtf", ".tex", ".txt", ".wpd", ".fb2" };
+            ViewBag.comments = _db.Comment.Where(x => x.FileModelId == id).ToList();
 
             return View(await _db.FileModel.FindAsync(id));
         }
