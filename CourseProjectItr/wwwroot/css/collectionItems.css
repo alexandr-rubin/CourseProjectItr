@@ -47,3 +47,18 @@
     transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
 }
+
+.like_btn{
+    display: none;
+}
+
+.collection-item:hover .like_btn {
+    z-index: 99;
+    color: lightgray;
+    display: block;
+    position: absolute;
+    top: 90%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+}

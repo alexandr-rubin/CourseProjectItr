@@ -211,6 +211,7 @@ namespace CourseProjectItr.Migrations
                     BoolField1 = table.Column<bool>(type: "bit", nullable: false),
                     BoolField2 = table.Column<bool>(type: "bit", nullable: false),
                     BoolField3 = table.Column<bool>(type: "bit", nullable: false),
+                    LikesNumber = table.Column<int>(type: "int", nullable: false),
                     CollectionId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -220,6 +221,30 @@ namespace CourseProjectItr.Migrations
                         name: "FK_FileModel_Collection_CollectionId",
                         column: x => x.CollectionId,
                         principalTable: "Collection",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApplicationUserFileModel",
+                columns: table => new
+                {
+                    LikesId = table.Column<int>(type: "int", nullable: false),
+                    LikesId1 = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApplicationUserFileModel", x => new { x.LikesId, x.LikesId1 });
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserFileModel_AspNetUsers_LikesId1",
+                        column: x => x.LikesId1,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ApplicationUserFileModel_FileModel_LikesId",
+                        column: x => x.LikesId,
+                        principalTable: "FileModel",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -244,6 +269,11 @@ namespace CourseProjectItr.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApplicationUserFileModel_LikesId1",
+                table: "ApplicationUserFileModel",
+                column: "LikesId1");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -297,6 +327,9 @@ namespace CourseProjectItr.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "ApplicationUserFileModel");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 

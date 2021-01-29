@@ -24,7 +24,7 @@
 </head>
 
 <body>
-    <input type="text" id="text-to-find" onkeyup="Search()" value="" placeholder="Search" class="m-3">
+    <input type="text" id="text-to-find" onkeyup="Search()" value="" placeholder="Search by theme" class="m-3">
 
     <a asp-action="Create" asp-route-userName="@Model.First().OwnerEmail" class="btn btn-primary m-2">Create New</a>
     @if (Model.ToList()[0].Name != null)

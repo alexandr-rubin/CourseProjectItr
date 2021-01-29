@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CourseProjectItr.Areas.Identity.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -26,7 +27,9 @@ namespace CourseProjectItr.Models
         public bool BoolField1 { get; set; }
         public bool BoolField2 { get; set; }
         public bool BoolField3 { get; set; }
-        public List<Comment> Comments { get; set; }
+        public List<Comment> Comments { get; set; } = new List<Comment>();
+        public List<ApplicationUser> Likes { get; set; } = new List<ApplicationUser>();
+        public int LikesNumber { get; set; } = 0;
         public int CollectionId { get; set; }
     }
 }

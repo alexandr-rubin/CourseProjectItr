@@ -87,8 +87,7 @@ namespace CourseProjectItr.Controllers
             var collection = await _db.Collection.FindAsync(id);
             
             fileModel.CollectionId = id;
-            if (collection.Files == null)
-                collection.Files = new List<FileModel>();
+
             collection.Files.Add(fileModel);
 
             fileModel.FilePath = UploadFile(file);
@@ -116,9 +115,6 @@ namespace CourseProjectItr.Controllers
                 FileModelId = id
             };
 
-            if (file.Comments == null)
-                file.Comments = new List<Comment>();
-
             file.Comments.Add(com);
 
             com.Id = 0;
@@ -144,7 +140,6 @@ namespace CourseProjectItr.Controllers
         public async Task<IActionResult> Create(Collection collection, IFormFile file, string userEmail)
         {
             collection.OwnerEmail = userEmail;
-            collection.Files = new List<FileModel>();
 
             collection.Avatar = UploadFile(file);
 
@@ -289,6 +284,27 @@ namespace CourseProjectItr.Controllers
             var fileModel = _db.FileModel.Find(id);
             ViewBag.userName = _db.Collection.Find(fileModel.CollectionId).OwnerEmail;
             return View(fileModel);
+        }
+
+        public async Task<IActionResult> Like(int id)
+        {
+            var file = _db.FileModel.Find(id);
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var likes = _db.FileModel.Include(x => x.Likes).ToList();
+            if (!likes.Find(x => x.Id == id).Likes.Contains(user))
+            {
+                file.Likes.Add(user);
+                file.LikesNumber++;
+            }
+            else
+            {
+                file.Likes.Remove(user);
+                file.LikesNumber--;
+            }
+
+            await _db.SaveChangesAsync();
+
+            return Ok(file.LikesNumber);
         }
     }
 }

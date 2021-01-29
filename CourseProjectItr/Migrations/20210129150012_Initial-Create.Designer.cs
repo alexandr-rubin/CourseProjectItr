@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CourseProjectItr.Migrations
 {
     [DbContext(typeof(CourseDbContext))]
-    [Migration("20210128143507_Initial-Create")]
+    [Migration("20210129150012_Initial-Create")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,6 +20,21 @@ namespace CourseProjectItr.Migrations
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
+
+            modelBuilder.Entity("ApplicationUserFileModel", b =>
+                {
+                    b.Property<int>("LikesId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LikesId1")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LikesId", "LikesId1");
+
+                    b.HasIndex("LikesId1");
+
+                    b.ToTable("ApplicationUserFileModel");
+                });
 
             modelBuilder.Entity("CourseProjectItr.Areas.Identity.Data.ApplicationUser", b =>
                 {
@@ -235,6 +250,9 @@ namespace CourseProjectItr.Migrations
                     b.Property<int>("IntField3")
                         .HasColumnType("int");
 
+                    b.Property<int>("LikesNumber")
+                        .HasColumnType("int");
+
                     b.Property<string>("OneLineField1")
                         .HasColumnType("nvarchar(max)");
 
@@ -396,6 +414,21 @@ namespace CourseProjectItr.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("ApplicationUserFileModel", b =>
+                {
+                    b.HasOne("CourseProjectItr.Models.FileModel", null)
+                        .WithMany()
+                        .HasForeignKey("LikesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CourseProjectItr.Areas.Identity.Data.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("LikesId1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CourseProjectItr.Models.Comment", b =>

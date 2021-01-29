@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.css" integrity="sha512-3eoKq7cU6gdVeT+6eL40YcJLD8dxzQmOK54qxUWVjg7H4NN3u5AA5k5ywrqLV15hOZDBBgdQH/GK5CA9MwDVwg==" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.js" integrity="sha512-FbW9TrdqAZVgIOrQeqDRnCe+l0g+aMBP7pWEt/zLWx8zgafpBwvJ6F1rsU+mkvbXuB4mBwS2ehlkZHE9cknTrg==" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.css" integrity="sha512-NVt7pmp5f+3eWRPO1h4A1gCf4opn4r5z2wS1mi7AaVcTzE9wDJ6RzMqSygjDzYHLp+mAJ2/qzXXDHar6IQwddQ==" crossorigin="anonymous" />
+    <script src="~/js/likes.js"></script>
 </head>
 <body>
     @*<form method="get">
@@ -52,7 +53,10 @@
                     <a href="@item.FilePath">
                         <img src="@item.FilePath" width="220" />
                     </a>
-
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <input type="button" class="like_btn btn btn-success" id="like_@item.Id" onclick="likeclick('@item.Id', '@item.LikesNumber')" value="Like @item.LikesNumber" />
+                    }
                     @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                     {
                         <a class="delete-btn btn btn-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
@@ -67,6 +71,10 @@
                     <div class="d-inline-block align-top text-center">
                         <div class="collection-item">
                             <img src="~/files/MusicImageCollectionItem.jpg" width="200" />
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <input type="button" class="like_btn btn btn-success" id="like_@item.Id" onclick="likeclick('@item.Id', '@item.LikesNumber')" value="Like @item.LikesNumber" />
+                            }
                             @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                             {
                                 <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
@@ -86,6 +94,10 @@
                     <div class="d-inline-block">
                         <div class="text-center collection-item">
                             <img src="~/files/fileIconInCollection.png" width="220" />
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <input type="button" class="like_btn btn btn-success" id="like_@item.Id" onclick="likeclick('@item.Id', '@item.LikesNumber')" value="Like @item.LikesNumber" />
+                            }
                             @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                             {
                                 <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
@@ -103,6 +115,10 @@
                     <div class="d-inline-block">
                         <div class="text-center collection-item">
                             <video src="@item.FilePath" controls width="390"></video>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <input type="button" class="like_btn btn btn-success" id="like_@item.Id" onclick="likeclick('@item.Id', '@item.LikesNumber')" value="Like @item.LikesNumber" />
+                            }
                             @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                             {
                                 <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
@@ -117,6 +133,10 @@
                     <div class="d-inline-block">
                         <div class="text-center collection-item">
                             <iframe src="~/files/@item.FilePath" width="390"></iframe>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <input type="button" class="like_btn btn btn-success" id="like_@item.Id" onclick="likeclick('@item.Id', '@item.LikesNumber')" value="Like @item.LikesNumber" />
+                            }
                             @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                             {
                                 <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
