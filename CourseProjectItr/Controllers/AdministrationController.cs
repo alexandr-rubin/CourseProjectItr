@@ -59,6 +59,14 @@ namespace CourseProjectItr.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> DeleteRole(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            _db.Remove(role);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("ListRoles");
+        }
+
         public IActionResult ListRoles()
         {
             var roles = _roleManager.Roles;

@@ -271,15 +271,24 @@ namespace CourseProjectItr.Controllers
             return RedirectToAction("UserCollectionsList", new { name = collection.OwnerEmail });
         }
 
-        public async Task<IActionResult> Item(int id)
+        [HttpPost]
+        public async Task<IActionResult> EditItem (FileModel fileModel)
+        {
+            _db.FileModel.Update(fileModel);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Item", new { fileModel.Id });
+        }
+
+        public IActionResult Item(int id)
         {
             ViewBag.imageExtensions = new List<string> { ".jpg", ".jpeg", ".bmp", ".gif", ".png" };
             ViewBag.audioExtensions = new List<string> { ".mp3", ".wav", ".wma", ".wpl", ".mid", ".midi", ".aif", ".cda", ".mpa", ".ogg" };
             ViewBag.videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
             ViewBag.textExtensions = new List<string> { ".doc", ".docx", ".odt", ".pdf", ".rtf", ".tex", ".txt", ".wpd", ".fb2" };
             ViewBag.comments = _db.Comment.Where(x => x.FileModelId == id).ToList();
-
-            return View(await _db.FileModel.FindAsync(id));
+            var fileModel = _db.FileModel.Find(id);
+            ViewBag.userName = _db.Collection.Find(fileModel.CollectionId).OwnerEmail;
+            return View(fileModel);
         }
     }
 }
