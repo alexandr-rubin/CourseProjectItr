@@ -14,17 +14,17 @@
     <script src="~/js/likes.js"></script>
 </head>
 <body>
-    @*<form method="get">
+    <form method="get">
         <div class="row form-group">
             <div class="m-3">
-                <input name="id" class="form-control" value="@ViewBag.id" />
+                <input name="id" class="form-control" value="@ViewBag.id" hidden />
                 <input name="searchText" class="form-control" />
             </div>
             <div class="m-3">
                 <button class="btn btn-success">Search</button>
             </div>
         </div>
-    </form>*@
+    </form>
     <div>
         <a asp-action="UserCollectionsList" asp-route-name="@ViewBag.userName">&#8592 Collections</a>
         @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))

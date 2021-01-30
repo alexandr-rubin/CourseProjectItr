@@ -18,7 +18,7 @@ namespace CourseProjectItr.Areas.Identity
             builder.ConfigureServices((context, services) => {
                 services.AddDbContext<CourseDbContext>(options =>
                     options.UseSqlServer(
-                        context.Configuration.GetConnectionString("CourseDbContextConnection")));
+                        context.Configuration.GetConnectionString("CourseProjectItrDbProd")));
 
                 services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true).AddRoles<IdentityRole>()
                     .AddEntityFrameworkStores<CourseDbContext>();

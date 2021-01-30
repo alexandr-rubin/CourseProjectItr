@@ -63,11 +63,13 @@ namespace CourseProjectItr.Controllers
             ViewBag.audioExtensions = new List<string> { ".mp3", ".wav", ".wma", ".wpl", ".mid", ".midi", ".aif", ".cda", ".mpa", ".ogg" };
             ViewBag.videoExtensions = new List<string> { ".avi", ".m4v", ".mkv", ".mov", ".mp4", ".mpg", ".mpeg", ".wmd" };
             ViewBag.textExtensions = new List<string> { ".doc", ".docx", ".odt", ".pdf", ".rtf", ".tex", ".txt", ".wpd", ".fb2" };
-            //if (!string.IsNullOrEmpty(searchText))
-            //{
-            //    var result = _db.FileModel.Where(x => x.CollectionId == id && EF.Functions.Contains(x.Tags, searchText)).ToList();
-            //    return View(result);
-            //}
+            if (!string.IsNullOrEmpty(searchText))
+            {
+                var result = _db.FileModel.Where(x => x.CollectionId == id && EF.Functions.FreeText(x.Tags, searchText) || EF.Functions.FreeText(x.FileName, searchText)
+                || EF.Functions.FreeText(x.OneLineField1, searchText) || EF.Functions.FreeText(x.OneLineField2, searchText) || EF.Functions.FreeText(x.OneLineField3, searchText)
+                || EF.Functions.FreeText(x.TextField1, searchText) || EF.Functions.FreeText(x.TextField2, searchText) || EF.Functions.FreeText(x.TextField3, searchText)).ToList();
+                return View(result);
+            }
             return View(_db.FileModel.Where(x => x.CollectionId == id));
         }
 
@@ -282,7 +284,9 @@ namespace CourseProjectItr.Controllers
             ViewBag.textExtensions = new List<string> { ".doc", ".docx", ".odt", ".pdf", ".rtf", ".tex", ".txt", ".wpd", ".fb2" };
             ViewBag.comments = _db.Comment.Where(x => x.FileModelId == id).ToList();
             var fileModel = _db.FileModel.Find(id);
-            ViewBag.userName = _db.Collection.Find(fileModel.CollectionId).OwnerEmail;
+            var collection = _db.Collection.Find(fileModel.CollectionId);
+            ViewBag.collection = collection;
+            ViewBag.userName = collection.OwnerEmail;
             return View(fileModel);
         }
 

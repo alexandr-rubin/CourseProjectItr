@@ -135,75 +135,122 @@
 
             <div class="d-inline-block">
                 <div class="d-inline-block">
-                    <div class="form-group">
-                        <label class="control-label">Required numeric value 1</label>
-                        <input asp-for="IntField1" type="number" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="IntField2" class="control-label">Required numeric value 2</label>
-                        <input asp-for="IntField2" type="number" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="IntField3" class="control-label">Required numeric value 3</label>
-                        <input asp-for="IntField3" type="number" class="form-control" />
-                    </div>
+                    @if (ViewBag.collection.IntField1)
+                    {
+                        <div class="form-group">
+                            <label class="control-label">Required numeric value 1</label>
+                            <input asp-for="IntField1" type="number" class="form-control" />
+                        </div>
+                    }
+                    else if (ViewBag.collection.IntField2)
+                    {
+                        <div class="form-group">
+                            <label asp-for="IntField2" class="control-label">Required numeric value 2</label>
+                            <input asp-for="IntField2" type="number" class="form-control" />
+                        </div>
+                    }
+                    else if (ViewBag.collection.IntField3)
+                    {
+                        <div class="form-group">
+                            <label asp-for="IntField3" class="control-label">Required numeric value 3</label>
+                            <input asp-for="IntField3" type="number" class="form-control" />
+                        </div>
+                    }
+                    
                 </div>
                 <div class="d-inline-block">
-                    <div class="form-group">
-                        <label asp-for="OneLineField1" class="control-label">Required one line value 1</label>
-                        <input asp-for="OneLineField1" type="text" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="OneLineField2" class="control-label">Required one line value 2</label>
-                        <input asp-for="OneLineField2" type="text" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="OneLineField3" class="control-label">Required one line value 3</label>
-                        <input asp-for="OneLineField3" type="text" class="form-control" />
-                    </div>
+                    @if (ViewBag.collection.OneLineField1)
+                    {
+                        <div class="form-group">
+                            <label asp-for="OneLineField1" class="control-label">Required one line value 1</label>
+                            <input asp-for="OneLineField1" type="text" class="form-control" />
+                        </div>
+                    }
+                    @if (ViewBag.collection.OneLineField2)
+                    {
+                        <div class="form-group">
+                            <label asp-for="OneLineField2" class="control-label">Required one line value 2</label>
+                            <input asp-for="OneLineField2" type="text" class="form-control" />
+                        </div>
+                    }
+                    @if (ViewBag.collection.OneLineField3)
+                    {
+                        <div class="form-group">
+                            <label asp-for="OneLineField3" class="control-label">Required one line value 3</label>
+                            <input asp-for="OneLineField3" type="text" class="form-control" />
+                        </div>
+                    }
+                    
                 </div>
                 <div class="d-inline-block">
-                    <div class="form-group">
-                        <label asp-for="TextField1" class="control-label">Required text value 1</label>
-                        <textarea asp-for="TextField1" type="text" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="TextField2" class="control-label">Required text value 2</label>
-                        <textarea asp-for="TextField2" type="text" class="form-control"></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="TextField3" class="control-label">Required text value 3</label>
-                        <textarea asp-for="TextField3" type="text" class="form-control"></textarea>
-                    </div>
+                    @if (ViewBag.collection.TextField1)
+                    {
+                        <div class="form-group">
+                            <label asp-for="TextField1" class="control-label">Required text value 1</label>
+                            <textarea asp-for="TextField1" type="text" class="form-control"></textarea>
+                        </div>
+                    }
+                    @if (ViewBag.collection.TextField2)
+                    {
+                        <div class="form-group">
+                            <label asp-for="TextField2" class="control-label">Required text value 2</label>
+                            <textarea asp-for="TextField2" type="text" class="form-control"></textarea>
+                        </div>
+                    }
+                    @if (ViewBag.collection.TextField3)
+                    {
+                        <div class="form-group">
+                            <label asp-for="TextField3" class="control-label">Required text value 3</label>
+                            <textarea asp-for="TextField3" type="text" class="form-control"></textarea>
+                        </div>
+                    }
                 </div>
                 <div class="d-inline-block">
-                    <div class="form-group">
-                        <label asp-for="DateField1" class="control-label">Required date value 1</label>
-                        <input asp-for="DateField1" type="date" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="DateField2" class="control-label">Required date value 2</label>
-                        <input asp-for="DateField2" type="date" class="form-control" />
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="DateField3" class="control-label">Required date value 3</label>
-                        <input asp-for="DateField3" type="date" class="form-control" />
-                    </div>
+                    @if (ViewBag.collection.DateField1)
+                    {
+                        <div class="form-group">
+                            <label asp-for="DateField1" class="control-label">Required date value 1</label>
+                            <input asp-for="DateField1" type="date" class="form-control" />
+                        </div>
+                    }
+                    @if (ViewBag.collection.DateField2)
+                    {
+                        <div class="form-group">
+                            <label asp-for="DateField2" class="control-label">Required date value 2</label>
+                            <input asp-for="DateField2" type="date" class="form-control" />
+                        </div>
+                    }
+                    @if (ViewBag.collection.DateField3)
+                    {
+                        <div class="form-group">
+                            <label asp-for="DateField3" class="control-label">Required date value 3</label>
+                            <input asp-for="DateField3" type="date" class="form-control" />
+                        </div>
+                    }
                 </div>
                 <div class="d-inline-block">
                     <div class="form-check">
-                        <div class="form-group">
-                            <input asp-for="BoolField1" type="checkbox" class="form-check-input" />
-                            <label asp-for="BoolField1" class="form-check-label">Required bool value 1</label>
-                        </div>
-                        <div class="form-group">
-                            <input asp-for="BoolField2" type="checkbox" class="form-check-input" />
-                            <label asp-for="BoolField2" class="form-check-label">Required bool value 2</label>
-                        </div>
-                        <div class="form-group">
-                            <input asp-for="BoolField3" type="checkbox" class="form-check-input" />
-                            <label asp-for="BoolField3" class="form-check-label">Required bool value 3</label>
-                        </div>
+                        @if (ViewBag.collection.BoolField1)
+                        {
+                            <div class="form-group">
+                                <input asp-for="BoolField1" type="checkbox" class="form-check-input" />
+                                <label asp-for="BoolField1" class="form-check-label">Required bool value 1</label>
+                            </div>
+                        }
+                        @if (ViewBag.collection.BoolField2)
+                        {
+                            <div class="form-group">
+                                <input asp-for="BoolField2" type="checkbox" class="form-check-input" />
+                                <label asp-for="BoolField2" class="form-check-label">Required bool value 2</label>
+                            </div>
+                        }
+                        @if (ViewBag.collection.BoolField3)
+                        {
+                            <div class="form-group">
+                                <input asp-for="BoolField3" type="checkbox" class="form-check-input" />
+                                <label asp-for="BoolField3" class="form-check-label">Required bool value 3</label>
+                            </div>
+                        }
                     </div>
                 </div>
 
@@ -231,7 +278,7 @@
         <form id="form" asp-action="AddComment" asp-controller="Collections" method="post" enctype="multipart/form-data">
             <input class="form-control" id="userName" value="@User.Identity.Name" hidden />
             <input class="form-control" id="fileId" value="@Model.Id" name="id" hidden />
-            <textarea class="form-control" type="text" id="comment" name="comment"></textarea>
+            <textarea class="form-control mt-2" type="text" id="comment" name="comment"></textarea>
             <input type="submit" id="sendBtn" value="Send" class="btn btn-primary mt-1" />
         </form>
 

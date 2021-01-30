@@ -20,6 +20,17 @@
 
 
 <body>
+    <form method="get">
+        <div class="row form-group">
+            <div class="m-3">
+                <input name="id" class="form-control" value="@ViewBag.id" hidden />
+                <input name="searchText" class="form-control" />
+            </div>
+            <div class="m-3">
+                <button class="btn btn-success">Search</button>
+            </div>
+        </div>
+    </form>
     @for (int i = 0; i < Model.ToList().Count; i++)
     {
         var item = Model.ToList()[i];
@@ -44,14 +55,14 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <input type="button" class="like_btn btn btn-success" id="like_@item.Id" onclick="likeclick('@item.Id', '@item.LikesNumber')" value="Like @item.LikesNumber" />
-                        } 
+                        }
                         @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                         {
                             <a class="delete-btn btn btn-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                         }
                         <div class="nav-item dropdown menu">
                             <button class="dropdown-toggle btn btn-primary" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                               id="dropdownMenuButton">
+                                    id="dropdownMenuButton">
                                 ...
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
