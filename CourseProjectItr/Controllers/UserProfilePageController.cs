@@ -24,11 +24,18 @@ namespace CourseProjectItr.Controllers
             _signInManager = signInManager;
         }
 
-        public async Task<IActionResult> UserProfilePage(string name)
+        public async Task<IActionResult> UserProfilePage(int id, string name)
         {
-            ViewBag.userName = name;
+            if (name != null)
+            {
+                ViewBag.userName = name;
+                ViewBag.avatar = await _db.FileModel.ToListAsync();
+                return View(await _db.Collection.Where(x => x.OwnerEmail == name).ToListAsync());
+            }
+            var collection = _db.Collection.Find(id);
+            ViewBag.userName = collection.OwnerEmail;
             ViewBag.avatar = await _db.FileModel.ToListAsync();
-            return View(await _db.Collection.Where(x => x.OwnerEmail == name).ToListAsync());
+            return View(await _db.Collection.Where(x => x.OwnerEmail == collection.OwnerEmail).ToListAsync());
         }
 
         public IActionResult CollectionItems(int id)

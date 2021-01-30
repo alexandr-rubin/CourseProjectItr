@@ -261,26 +261,28 @@
             }
             
         </form>
+        <div class="mt-5">
+            <div>
+                @foreach (var item in ViewBag.comments)
+                {
+                    <div>
+                        <b class="d-inline-block">@item.CommentAuthor: </b>
+                        <p class="d-inline-block">@item.UserComment</p>
+                    </div>
 
-        <div>
-            @foreach (var item in ViewBag.comments)
-            {
-                <div>
-                    <b class="d-inline-block">@item.CommentAuthor: </b>
-                    <p class="d-inline-block">@item.UserComment</p>
-                </div>
-                
-            }
+                }
+            </div>
+
+            <div id="commentroom"></div>
+
+            <form id="form" asp-action="AddComment" asp-controller="Collections" method="post" enctype="multipart/form-data">
+                <input class="form-control" id="userName" value="@User.Identity.Name" hidden />
+                <input class="form-control" id="fileId" value="@Model.Id" name="id" hidden />
+                <textarea class="form-control mt-2" type="text" id="comment" name="comment"></textarea>
+                <input type="submit" id="sendBtn" value="Send" class="btn btn-primary mt-1" />
+            </form>
         </div>
-
-        <div id="commentroom"></div>
-
-        <form id="form" asp-action="AddComment" asp-controller="Collections" method="post" enctype="multipart/form-data">
-            <input class="form-control" id="userName" value="@User.Identity.Name" hidden />
-            <input class="form-control" id="fileId" value="@Model.Id" name="id" hidden />
-            <textarea class="form-control mt-2" type="text" id="comment" name="comment"></textarea>
-            <input type="submit" id="sendBtn" value="Send" class="btn btn-primary mt-1" />
-        </form>
+        
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="~/js/signalr/dist/browser/signalr.min.js"></script>
