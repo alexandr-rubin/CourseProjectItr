@@ -53,7 +53,7 @@ namespace CourseProjectItr.Controllers
 
             if (!string.IsNullOrEmpty(searchText))
             {
-                var result = _db.FileModel.Where(x => x.CollectionId == collectionId && EF.Functions.FreeText(x.Tags, searchText) || EF.Functions.FreeText(x.FileName, searchText)
+                var result = _db.FileModel.Where(x => EF.Functions.FreeText(x.Tags, searchText) || EF.Functions.FreeText(x.FileName, searchText)
                 || EF.Functions.FreeText(x.OneLineField1, searchText) || EF.Functions.FreeText(x.OneLineField2, searchText) || EF.Functions.FreeText(x.OneLineField3, searchText)
                 || EF.Functions.FreeText(x.TextField1, searchText) || EF.Functions.FreeText(x.TextField2, searchText) || EF.Functions.FreeText(x.TextField3, searchText)).ToList();
                 return View(result);
