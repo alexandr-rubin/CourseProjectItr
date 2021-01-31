@@ -10,6 +10,8 @@
     <title>@ViewData["Title"] - CourseProjectItr</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/theme.css" />
+    <script src="~/js/theme.js"></script>
 </head>
 <body>
     <header>
@@ -43,11 +45,15 @@
                                     <a class="text-dark dropdown-item" asp-area="" asp-controller="Administration" asp-action="ListRoles">List Roles</a>
                                     <a class="text-dark dropdown-item" asp-area="" asp-controller="Administration" asp-action="UsersAdministration">Users Administration</a>
                                 </div>
-                                
+
                             </li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />
+                    <select id="theme">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                    </select>
                 </div>
             </div>
         </nav>

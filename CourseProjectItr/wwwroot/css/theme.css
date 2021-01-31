@@ -1,0 +1,26 @@
+﻿body {
+    background-color: #ffffff;
+}
+
+:root {
+    --dark-background-color: #111111;
+    --dark-text-color: #eeeeee;
+}
+
+body.theme-dark {
+    background-color: #111111;
+    color: #eeeeee;
+}
+
+body.theme-dark .table {
+    color: #eeeeee;
+}
+
+body.theme-dark .role {
+    color: #111111;
+}
+
+body.theme-dark .tagify__tag-text {
+    color: #eeeeee;
+    background-color: black;
+}
