@@ -58,7 +58,7 @@
                         }
                         @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                         {
-                            <a class="delete-btn btn btn-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                            <a class="delete-btn btn btn-danger" asp-controller="Collections" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                         }
                         <div class="nav-item dropdown menu">
                             <button class="dropdown-toggle btn btn-primary" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -85,7 +85,7 @@
                             }
                             @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                             {
-                                <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                                <a class="delete-btn btn bg-danger" asp-controller="Collections" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                             }
                             <div class="nav-item dropdown menu">
                                 <button class="dropdown-toggle btn btn-primary" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -117,7 +117,7 @@
                             }
                             @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                             {
-                                <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                                <a class="delete-btn btn bg-danger" asp-controller="Collections" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                             }
                             <div class="nav-item dropdown menu">
                                 <button class="dropdown-toggle btn btn-primary" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -147,7 +147,7 @@
                             }
                             @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                             {
-                                <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                                <a class="delete-btn btn bg-danger" asp-controller="Collections" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                             }
                             <div class="nav-item dropdown menu">
                                 <button class="dropdown-toggle btn btn-primary" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
@@ -174,7 +174,7 @@
                             }
                             @if (ViewBag.userName == User.Identity.Name || User.IsInRole("Admin"))
                             {
-                                <a class="delete-btn btn bg-danger" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
+                                <a class="delete-btn btn bg-danger" asp-controller="Collections" asp-action="DeleteItem" asp-route-id="@item.Id">Delete</a>
                             }
                             <div class="nav-item dropdown menu">
                                 <button class="dropdown-toggle btn btn-primary" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
